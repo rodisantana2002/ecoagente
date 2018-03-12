@@ -5,17 +5,41 @@
  */
 package ecoagente;
 
+import ecoagente.generic.model.Estado;
+import ecoagente.mundoBlocos.model.Bloco;
+import ecoagente.mundoBlocos.model.Mesa;
+
 /**
  *
  * @author rodolfosmac
  */
 public class EcoAgente {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Bloco bloco = new Bloco(1, "Bloco de Teste", 'A', Estado.INSATISFEITO);
+        bloco.desenharTerminal();
+        
+        Mesa mesa = new Mesa(3);
+        mesa.desenharTerminal();
+        
     }
-    
 }
+
+//        new Agente("Quadrado 01").start();
+//        new Agente("Quadrado 02").start();
+
+//
+//class Agente extends Thread {
+//    public Agente(String str) {
+//        super(str);
+//    }
+//    public void run() {
+//        for (int i = 0; i < 10; i++) {
+//            System.out.println(i + " " + getName());
+//            try {
+//                sleep((long)(Math.random() * 1000));
+//            } catch (InterruptedException e) {}
+//        }
+//        System.out.println("DONE! " + getName());
+//    }
+//}

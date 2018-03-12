@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ecoagente.model;
+package ecoagente.mundoBlocos.model;
 
 /**
  *
  * @author rodolfosmac
  */
-public class agente {
+public class Pilha {
     
 }
