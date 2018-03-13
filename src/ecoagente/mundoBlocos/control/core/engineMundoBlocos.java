@@ -3,12 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ecoagente.mundoBlocos.model;
+package ecoagente.mundoBlocos.control.core;
+
+import ecoagente.generic.core.itfEngine;
 
 /**
  *
  * @author rodolfosmac
  */
-public class Pilha {
-    
+public class engineMundoBlocos implements itfEngine{
+
+    @Override
+    public boolean processar() {
+        return true;
+    }   
 }

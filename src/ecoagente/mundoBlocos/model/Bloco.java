@@ -17,14 +17,20 @@ import ecoagente.generic.model.Estado;
  */
 public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     
+    public Bloco(int id, char alias){
+        super();
+        setId(id);
+        setAlias(alias);
+    }
+    
     public Bloco(int id, String descricao, char alias, Estado estado){
         super();
         setId(id);
         setDescricao(descricao);
         setEstado(estado);
         setAlias(alias);
-    }
-
+    }   
+    
     @Override
     public boolean atacar(int posicao) {return true;}
 
