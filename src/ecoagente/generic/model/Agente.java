@@ -13,7 +13,8 @@ public abstract class Agente {
     private int id;
     private String descricao;
     private char alias;
-    private Estado estado;
+    private Estado estado;   
+    
 
     /**
      * @return the id

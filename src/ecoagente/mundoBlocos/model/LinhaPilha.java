@@ -16,7 +16,7 @@ import java.util.List;
  * @author rodolfosmac
  */
 public class LinhaPilha extends Agente implements itfSaidaTerminal{
-    List<Bloco> blocosLinha;
+    private List<Bloco> blocosLinha;
     
     public LinhaPilha(int id, String descricao){
         super();
@@ -26,15 +26,15 @@ public class LinhaPilha extends Agente implements itfSaidaTerminal{
     }
     
     public int getCount(){
-        return blocosLinha.size();
+        return getBlocosLinha().size();
     }
     
     public boolean adicionarBloco(Bloco bloco){
-        return blocosLinha.add(bloco);
+        return getBlocosLinha().add(bloco);
     }
     
     public boolean removerBloco(Bloco bloco){
-        return blocosLinha.remove(bloco);
+        return getBlocosLinha().remove(bloco);
     }
     
     @Override
@@ -44,7 +44,7 @@ public class LinhaPilha extends Agente implements itfSaidaTerminal{
 
     public String desenharLinhaPila() {
         StringBuilder strLinha = new StringBuilder("");
-        for (Bloco bloco : blocosLinha){
+        for (Bloco bloco : getBlocosLinha()){
             if(bloco.getAlias() != ' '){
                 strLinha.append("  +---+ " );                
             }
@@ -54,7 +54,7 @@ public class LinhaPilha extends Agente implements itfSaidaTerminal{
         }
         strLinha.append("\n");
         
-        for (Bloco bloco : blocosLinha){
+        for (Bloco bloco : getBlocosLinha()){
             if(bloco.getAlias() != ' '){            
                 strLinha.append("  | " + bloco.getAlias() + " | ");
             }
@@ -64,7 +64,7 @@ public class LinhaPilha extends Agente implements itfSaidaTerminal{
         }        
         strLinha.append("\n");
         
-        for (Bloco bloco : blocosLinha){
+        for (Bloco bloco : getBlocosLinha()){
             if(bloco.getAlias() != ' '){            
                 strLinha.append("  +---+ " );
             }
@@ -74,5 +74,12 @@ public class LinhaPilha extends Agente implements itfSaidaTerminal{
         }
         
         return strLinha.toString();
+    }
+
+    /**
+     * @return the blocosLinha
+     */
+    public List<Bloco> getBlocosLinha() {
+        return blocosLinha;
     }
 }

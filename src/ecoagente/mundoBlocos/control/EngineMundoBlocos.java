@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ecoagente.mundoBlocos.control.core;
+package ecoagente.mundoBlocos.control;
 
 import ecoagente.generic.core.itfEngine;
 
@@ -11,7 +11,7 @@ import ecoagente.generic.core.itfEngine;
  *
  * @author rodolfosmac
  */
-public class engineMundoBlocos implements itfEngine{
+public class EngineMundoBlocos implements itfEngine{
 
     @Override
     public boolean processar() {

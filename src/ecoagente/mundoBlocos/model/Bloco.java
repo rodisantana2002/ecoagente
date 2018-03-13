@@ -10,16 +10,20 @@ import ecoagente.generic.core.itfSaidaTerminal;
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Agente;
 import ecoagente.generic.model.Estado;
+import ecoagente.generic.model.Posicao;
 
 /**
  *
  * @author rodolfosmac
  */
 public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
-    
+    private Posicao objetivo;
+    private Posicao posicaoAtual;
+        
     public Bloco(int id, char alias){
         super();
         setId(id);
+        setDescricao("livre");
         setAlias(alias);
     }
     
@@ -30,6 +34,34 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         setEstado(estado);
         setAlias(alias);
     }   
+    
+    /**
+     * @return the objetivo
+     */
+    public Posicao getObjetivo() {
+        return objetivo;
+    }
+
+    /**
+     * @param objetivo the objetivo to set
+     */
+    public void setObjetivo(Posicao objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    /**
+     * @return the posicaoAtual
+     */
+    public Posicao getPosicaoAtual() {
+        return posicaoAtual;
+    }
+
+    /**
+     * @param posicaoAtual the posicaoAtual to set
+     */
+    public void setPosicaoAtual(Posicao posicaoAtual) {
+        this.posicaoAtual = posicaoAtual;
+    }    
     
     @Override
     public boolean atacar(int posicao) {return true;}

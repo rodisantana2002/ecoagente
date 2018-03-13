@@ -8,6 +8,7 @@ package ecoagente.mundoBlocos.model;
 import ecoagente.generic.core.itfSaidaTerminal;
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Agente;
+import ecoagente.generic.model.Posicao;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
  */
 public class Mesa extends Agente implements itfSaidaTerminal{
     private int numEspacos;
+    private String token=""; 
     private List<LinhaPilha> linhasPilha;
 
     public Mesa(int id, String descricao, List linhasPilhas){
@@ -24,8 +26,32 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         setDescricao(descricao);
         this.linhasPilha = linhasPilhas;
         this.numEspacos = this.linhasPilha.get(0).getCount();        
+        popularPosicaoBloco();
     }
 
+    public String getToken(){
+        return this.token;
+    }
+    
+    private void popularPosicaoBloco(){        
+        StringBuilder strToken = new StringBuilder("");
+        
+        for (LinhaPilha linhaPilha : linhasPilha){
+            for (int col = 0; col<linhaPilha.getCount(); col++){
+                Posicao posicao = new Posicao();
+                clsPSR.prt(linhaPilha.getBlocosLinha().get(col).getAlias()+ " - lInha:" + linhaPilha.getId() + " Coluna:" + String.valueOf(col));                
+                
+                posicao.setLinha(linhaPilha.getId());
+                posicao.setColuna(col);
+                
+                linhaPilha.getBlocosLinha().get(col).setPosicaoAtual(posicao);
+                
+                strToken.append(linhaPilha.getId()+ String.valueOf(col) + "|");
+            }            
+        }    
+        this.token = strToken.toString();
+    }
+    
     @Override
     public void desenharTerminal() {
         clsPSR.prt(desenharMesa());
