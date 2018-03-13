@@ -18,21 +18,24 @@ import ecoagente.generic.model.Posicao;
  */
 public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     private Posicao objetivo;
-    private Posicao posicaoAtual;
+    private Posicao posicao;
         
     public Bloco(int id, char alias){
         super();
         setId(id);
         setDescricao("livre");
         setAlias(alias);
+        setPosicao(posicao);
     }
     
-    public Bloco(int id, String descricao, char alias, Estado estado){
+    public Bloco(int id, String descricao, char alias, Estado estado, Posicao objetivo){
         super();
         setId(id);
         setDescricao(descricao);
         setEstado(estado);
         setAlias(alias);
+        setPosicao(posicao);
+        setObjetivo(objetivo);
     }   
     
     /**
@@ -52,15 +55,15 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     /**
      * @return the posicaoAtual
      */
-    public Posicao getPosicaoAtual() {
-        return posicaoAtual;
+    public Posicao getPosicao() {
+        return posicao;
     }
 
     /**
      * @param posicaoAtual the posicaoAtual to set
      */
-    public void setPosicaoAtual(Posicao posicaoAtual) {
-        this.posicaoAtual = posicaoAtual;
+    public void setPosicao(Posicao posicaoAtual) {
+        this.posicao = posicaoAtual;
     }    
     
     @Override

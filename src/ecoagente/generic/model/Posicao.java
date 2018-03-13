@@ -14,6 +14,10 @@ public class Posicao {
     private int coluna;
     private String descricao;
 
+    public Posicao(int linha, int coluna){
+        setLinha(linha);
+        setColuna(coluna);
+    }
     /**
      * @return the inicio
      */

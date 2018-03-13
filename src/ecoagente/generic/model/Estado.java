@@ -10,6 +10,18 @@ package ecoagente.generic.model;
  * @author rodolfosmac
  */
 public enum Estado {
-    SATISFEITO,
-    INSATISFEITO    
-}
+    S("Satisfeito"),
+    RS("Buscando Satisfação"),    
+    RF("Buscando Local p/ Fuga"),
+    F("Fugindo");
+
+    private String descricao;
+ 
+    Estado(String descricao) {
+        this.descricao = descricao;
+    }
+ 
+    public String getDescricao() {
+        return descricao;
+    }
+}    

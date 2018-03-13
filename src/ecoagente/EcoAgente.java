@@ -7,9 +7,11 @@ package ecoagente;
 
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Estado;
+import ecoagente.generic.model.Posicao;
 import ecoagente.mundoBlocos.model.Bloco;
 import ecoagente.mundoBlocos.model.LinhaPilha;
 import ecoagente.mundoBlocos.model.Mesa;
+import ecoagente.mundoBlocos.model.MundoBlocos;
 import java.util.LinkedList;
 
 /**
@@ -19,17 +21,27 @@ import java.util.LinkedList;
 public class EcoAgente {
 
     public static void main(String[] args) {
-        Bloco bloco0 = new Bloco(0, ' ');        
+        Posicao objetivo;
+
+        
+        objetivo = new Posicao(5, 1);
+        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", 'A', Estado.RS, objetivo);       
+        
+        objetivo = new Posicao(4, 1);       
+        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.RS, objetivo);
+        
+        objetivo = new Posicao(3, 1);        
+        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.RS, objetivo);
+        
+        objetivo = new Posicao(2, 1);        
+        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", 'D', Estado.RS, objetivo);
+        
+        objetivo = new Posicao(1, 1);        
+        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, objetivo);
+                
         Bloco bloco100 = new Bloco(100, ' ');        
         Bloco bloco101 = new Bloco(101, ' ');        
         Bloco bloco102 = new Bloco(102, ' ');        
-        
-        
-        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", 'A', Estado.INSATISFEITO);       
-        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.INSATISFEITO);
-        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.INSATISFEITO);
-        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", 'D', Estado.INSATISFEITO);
-        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.INSATISFEITO);
 
         LinhaPilha linhaPilha01 = new LinhaPilha(1, "Linha01");
         linhaPilha01.adicionarBloco(bloco1);
@@ -50,55 +62,55 @@ public class EcoAgente {
         Mesa mesa = new Mesa(1, "Situação Atual", linhas);
         mesa.desenharTerminal();
         clsPSR.prt(mesa.getToken());
-              
-        //situacao desejada
-        LinhaPilha linhaPilhades01 = new LinhaPilha(1, "Linha01");        
-        linhaPilhades01.adicionarBloco(bloco0);        
-        linhaPilhades01.adicionarBloco(bloco0);
-        linhaPilhades01.adicionarBloco(bloco0);                                                
-        linhaPilhades01.adicionarBloco(bloco1);                
-
-        LinhaPilha linhaPilhades02 = new LinhaPilha(2, "Linha02");        
-        linhaPilhades02.adicionarBloco(bloco0);        
-        linhaPilhades02.adicionarBloco(bloco0);
-        linhaPilhades02.adicionarBloco(bloco0);                                                
-        linhaPilhades02.adicionarBloco(bloco2);                
-        
-        LinhaPilha linhaPilhades03 = new LinhaPilha(3, "Linha03");        
-        linhaPilhades03.adicionarBloco(bloco0);        
-        linhaPilhades03.adicionarBloco(bloco0);
-        linhaPilhades03.adicionarBloco(bloco0);                                                
-        linhaPilhades03.adicionarBloco(bloco3);                
-                
-        LinhaPilha linhaPilhades04 = new LinhaPilha(4, "Linha04");        
-        linhaPilhades04.adicionarBloco(bloco0);        
-        linhaPilhades04.adicionarBloco(bloco0);
-        linhaPilhades04.adicionarBloco(bloco0);                                                
-        linhaPilhades04.adicionarBloco(bloco4);                
-        
-        LinhaPilha linhaPilhades05 = new LinhaPilha(5, "Linha05");        
-        linhaPilhades05.adicionarBloco(bloco0);        
-        linhaPilhades05.adicionarBloco(bloco0);
-        linhaPilhades05.adicionarBloco(bloco0);                                                
-        linhaPilhades05.adicionarBloco(bloco5);                
-                
-        LinkedList<LinhaPilha> linhasdes = new LinkedList<LinhaPilha>();
-        linhasdes.addLast(linhaPilhades05);
-        linhasdes.addLast(linhaPilhades04);
-        linhasdes.addLast(linhaPilhades03);
-        linhasdes.addLast(linhaPilhades02);
-        linhasdes.addLast(linhaPilhades01);
-        
-        Mesa mesades = new Mesa(2, "Situação Desejada", linhasdes);
-        mesades.desenharTerminal();
-        clsPSR.prt(mesades.getToken());
-        
-        
-        //MundoBlocos mundoBlocos = new MundoBlocos(mesa, mesades);
-        //mundoBlocos.exibirSituacao(mesades);
+               
+        MundoBlocos mundoBlocos = new MundoBlocos(mesa);
         
     }
 }
+
+
+//              
+//        //situacao desejada
+//        LinhaPilha linhaPilhades01 = new LinhaPilha(1, "Linha01");        
+//        linhaPilhades01.adicionarBloco(bloco0);        
+//        linhaPilhades01.adicionarBloco(bloco0);
+//        linhaPilhades01.adicionarBloco(bloco0);                                                
+//        linhaPilhades01.adicionarBloco(bloco1);                
+//
+//        LinhaPilha linhaPilhades02 = new LinhaPilha(2, "Linha02");        
+//        linhaPilhades02.adicionarBloco(bloco0);        
+//        linhaPilhades02.adicionarBloco(bloco0);
+//        linhaPilhades02.adicionarBloco(bloco0);                                                
+//        linhaPilhades02.adicionarBloco(bloco2);                
+//        
+//        LinhaPilha linhaPilhades03 = new LinhaPilha(3, "Linha03");        
+//        linhaPilhades03.adicionarBloco(bloco0);        
+//        linhaPilhades03.adicionarBloco(bloco0);
+//        linhaPilhades03.adicionarBloco(bloco0);                                                
+//        linhaPilhades03.adicionarBloco(bloco3);                
+//                
+//        LinhaPilha linhaPilhades04 = new LinhaPilha(4, "Linha04");        
+//        linhaPilhades04.adicionarBloco(bloco0);        
+//        linhaPilhades04.adicionarBloco(bloco0);
+//        linhaPilhades04.adicionarBloco(bloco0);                                                
+//        linhaPilhades04.adicionarBloco(bloco4);                
+//        
+//        LinhaPilha linhaPilhades05 = new LinhaPilha(5, "Linha05");        
+//        linhaPilhades05.adicionarBloco(bloco0);        
+//        linhaPilhades05.adicionarBloco(bloco0);
+//        linhaPilhades05.adicionarBloco(bloco0);                                                
+//        linhaPilhades05.adicionarBloco(bloco5);                
+//                
+//        LinkedList<LinhaPilha> linhasdes = new LinkedList<LinhaPilha>();
+//        linhasdes.addLast(linhaPilhades05);
+//        linhasdes.addLast(linhaPilhades04);
+//        linhasdes.addLast(linhaPilhades03);
+//        linhasdes.addLast(linhaPilhades02);
+//        linhasdes.addLast(linhaPilhades01);
+//        
+//        Mesa mesades = new Mesa(2, "Situação Desejada", linhasdes);
+//        mesades.desenharTerminal();
+//        clsPSR.prt(mesades.getToken());
 
 //        new Agente("Quadrado 01").start();
 //        new Agente("Quadrado 02").start();

@@ -38,13 +38,9 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         
         for (LinhaPilha linhaPilha : linhasPilha){
             for (int col = 0; col<linhaPilha.getCount(); col++){
-                Posicao posicao = new Posicao();
-                clsPSR.prt(linhaPilha.getBlocosLinha().get(col).getAlias()+ " - lInha:" + linhaPilha.getId() + " Coluna:" + String.valueOf(col));                
-                
-                posicao.setLinha(linhaPilha.getId());
-                posicao.setColuna(col);
-                
-                linhaPilha.getBlocosLinha().get(col).setPosicaoAtual(posicao);
+                Posicao posicao = new Posicao(linhaPilha.getId(), col);
+                clsPSR.prt(linhaPilha.getBlocosLinha().get(col).getAlias()+ " - lInha:" + linhaPilha.getId() + " Coluna:" + String.valueOf(col));                                
+                linhaPilha.getBlocosLinha().get(col).setPosicao(posicao);
                 
                 strToken.append(linhaPilha.getId()+ String.valueOf(col) + "|");
             }            

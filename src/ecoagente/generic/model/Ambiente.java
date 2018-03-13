@@ -5,19 +5,16 @@
  */
 package ecoagente.generic.model;
 
-import ecoagente.generic.core.itfSaidaTerminal;
-
 /**
  *
  * @author rodolfosmac
  */
 public abstract class Ambiente {
-    private itfSaidaTerminal prtSaida;
     private Agente situacaoInicial;
     private Agente situacaoAtual;
     private Agente situacaoFinal;
     private Estado estado;
-    
+        
     /**
      * @return the estado
      */
@@ -32,6 +29,12 @@ public abstract class Ambiente {
         this.estado = estado;
     }   
 
+    
+    /**
+     * exibe a situacao conforme o Agente repassado
+     * @param situacao
+     */
+    public abstract void exibirSituacao(Agente situacao);
 
     /**
      * @return the situacaoInicial
@@ -46,7 +49,7 @@ public abstract class Ambiente {
     public void setSituacaoInicial(Agente situacaoInicial) {
         this.situacaoInicial = situacaoInicial;
     }
-    
+
     /**
      * @return the situacaoAtual
      */
@@ -67,20 +70,12 @@ public abstract class Ambiente {
     public Agente getSituacaoFinal() {
         return situacaoFinal;
     }
-    
+
     /**
      * @param situacaoFinal the situacaoFinal to set
      */
     public void setSituacaoFinal(Agente situacaoFinal) {
         this.situacaoFinal = situacaoFinal;
     }
-    
-    /**
-     * exibe a situacao conforme o Agente repassado
-     */
-    public void exibirSituacao(Agente situacao) {
-        prtSaida = (itfSaidaTerminal) situacao;
-        prtSaida.desenharTerminal();
-    }
-
+          
 }
