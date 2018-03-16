@@ -6,6 +6,7 @@
 package ecoagente.mundoBlocos.model;
 
 import ecoagente.generic.core.itfSaidaTerminal;
+import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Agente;
 import java.util.List;
 
@@ -39,12 +40,62 @@ public class PilhaBlocos extends Agente implements itfSaidaTerminal{
     }
         
     @Override
-    public void desenharTerminal() {}
+    public void desenharTerminal() {
+        clsPSR.prt(desenharPilhaBlocos());
+    }
 
+    public String desenharPilhaBlocos(){
+        StringBuilder strPilha = new StringBuilder("");
+
+        int linha = linhas-1;
+        while (linha>=0){
+            for (int coluna=0; coluna<colunas; coluna++){
+                if(matrixBlocos[linha][coluna].getAlias() != ' '){
+                    strPilha.append("  +---+ " );                
+                  }
+                else{
+                    strPilha.append("        " );                                
+                  }                
+            }
+            strPilha.append("\n");
+            
+            for (int coluna=0; coluna<colunas; coluna++){
+                if(matrixBlocos[linha][coluna].getAlias() != ' '){
+                    strPilha.append("  | " + matrixBlocos[linha][coluna].getAlias() + " | ");
+                  }
+                else{
+                    strPilha.append("        " );                                                
+                  }                
+            }            
+            strPilha.append("\n");
+            
+            for (int coluna=0; coluna<colunas; coluna++){
+                if(matrixBlocos[linha][coluna].getAlias() != ' '){
+                    strPilha.append("  +---+ " );                
+                  }
+                else{
+                    strPilha.append("        " );                                
+                  }                
+            }
+            strPilha.append("\n");            
+            linha --;
+        }            
+        return strPilha.toString();        
+    }
+    
     private void popularMatrixBlocos() {
         matrixBlocos = new Bloco[linhas][colunas];
+        
         for (Bloco bloco : blocos){
-            matrixBlocos[bloco.getObjetivo().getLinha()][bloco.getObjetivo().getColuna()] = bloco;
+            matrixBlocos[bloco.getPosicao().getLinha()][bloco.getPosicao().getColuna()] = bloco;
         }
+        
+        for (int linha=0; linha<linhas; linha++){
+            for (int coluna=0; coluna<colunas; coluna++){
+                if (matrixBlocos[linha][coluna]==null){
+                    matrixBlocos[linha][coluna] = new Bloco(Integer.valueOf(String.valueOf("11"+coluna)), ' ');
+                }
+            }
+        }                
     }
 }

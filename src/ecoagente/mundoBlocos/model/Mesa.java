@@ -8,7 +8,6 @@ package ecoagente.mundoBlocos.model;
 import ecoagente.generic.core.itfSaidaTerminal;
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Agente;
-import ecoagente.generic.model.Posicao;
 import java.util.List;
 
 /**
@@ -16,36 +15,43 @@ import java.util.List;
  * @author rodolfosmac
  */
 public class Mesa extends Agente implements itfSaidaTerminal{
-    private int numEspacos;
-    private String token=""; 
-    private List<LinhaPilha> linhasPilha;
+    private int numColunas;
+    private List<Bloco> blocos;
+    private PilhaBlocos pilhaBlocos;
+    private String tokenMesa, tokenObjetivo;
 
-    public Mesa(int id, String descricao, List linhasPilhas){
+    public Mesa(int id, String descricao, List blocos, int linhas, int colunas){
         super();
         setId(id);
         setDescricao(descricao);
-        this.linhasPilha = linhasPilhas;
-        this.numEspacos = this.linhasPilha.get(0).getCount();        
-        popularPosicaoBloco();
+        this.numColunas = colunas;
+        this.blocos = blocos;
+        popularPilhaBlocos(linhas, colunas);
     }
 
-    public String getToken(){
-        return this.token;
+    public String getTokenMesa() {
+        return tokenMesa;
     }
+
+    public String getTokenObjetivo() {
+        return tokenObjetivo;
+    }   
     
-    private void popularPosicaoBloco(){        
+    private void popularPilhaBlocos(int linhas, int colunas){        
+        pilhaBlocos = new PilhaBlocos(getId(), "Pilha --> " + getDescricao(), linhas, colunas, blocos);
         StringBuilder strToken = new StringBuilder("");
+        StringBuilder strTokenObjetivo = new StringBuilder("");
+
+        for (Bloco bloco : blocos){
+            strToken.append(String.valueOf(bloco.getPosicao().getLinha()) +  
+                            String.valueOf(bloco.getPosicao().getColuna()) + "|");          
+            
+            strTokenObjetivo.append(String.valueOf(bloco.getObjetivo().getLinha()) +  
+                                    String.valueOf(bloco.getObjetivo().getColuna()) + "|");           
+        }
         
-        for (LinhaPilha linhaPilha : linhasPilha){
-            for (int col = 0; col<linhaPilha.getCount(); col++){
-                Posicao posicao = new Posicao(linhaPilha.getId(), col);
-                clsPSR.prt(linhaPilha.getBlocosLinha().get(col).getAlias()+ " - lInha:" + linhaPilha.getId() + " Coluna:" + String.valueOf(col));                                
-                linhaPilha.getBlocosLinha().get(col).setPosicao(posicao);
-                
-                strToken.append(linhaPilha.getId()+ String.valueOf(col) + "|");
-            }            
-        }    
-        this.token = strToken.toString();
+        this.tokenMesa = strToken.toString();
+        this.tokenObjetivo = strTokenObjetivo.toString();
     }
     
     @Override
@@ -63,17 +69,17 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         //desenha base
         String strBaseBloco = "-------|";                
         strMesa.append("|");
-        for (int i=0; i<numEspacos; i++){
+        for (int i=0; i<numColunas; i++){
             strMesa.append(strBaseBloco);
         }        
 
         strMesa.append("\n|" );
-        for (int i=1; i<=(numEspacos); i++){
+        for (int i=1; i<=(numColunas); i++){
             String strDecimal = "";
             if (i<=9){
                 strDecimal = "0";
             }
-            if (i<numEspacos){                
+            if (i<numColunas){                
                 strMesa.append("  E" + strDecimal + String.valueOf(i) + "   ");                                            
             }
             else{
@@ -83,7 +89,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         
         //desenha os pes
         for (int i=0; i<=3; i++){
-            strMesa.append("\n|" + repeat(" ", ((numEspacos * 8) - 1)) + "|");
+            strMesa.append("\n|" + repeat(" ", ((numColunas * 8) - 1)) + "|");
         }                               
         strMesa.append("\n\n" + "** Desenvolvido by aluno Rodolfo Santana ");
         
@@ -92,10 +98,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
  
     private String desenharLinhas(){
         StringBuilder strLinha = new StringBuilder("");        
-        
-        for (LinhaPilha linhaPilha : linhasPilha){
-            strLinha.append(linhaPilha.desenharLinhaPila() + "\n");
-        }
+        strLinha.append(pilhaBlocos.desenharPilhaBlocos());
         
         return strLinha.toString();
     }
@@ -104,3 +107,4 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         return new String(new char[times]).replace("\0", str);
     }    
 }
+

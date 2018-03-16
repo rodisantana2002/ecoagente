@@ -28,7 +28,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         setPosicao(posicao);
     }
     
-    public Bloco(int id, String descricao, char alias, Estado estado, Posicao objetivo){
+    public Bloco(int id, String descricao, char alias, Estado estado, Posicao posicao, Posicao objetivo){
         super();
         setId(id);
         setDescricao(descricao);

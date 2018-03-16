@@ -5,10 +5,11 @@
  */
 package ecoagente;
 
+import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Estado;
 import ecoagente.generic.model.Posicao;
 import ecoagente.mundoBlocos.model.Bloco;
-import ecoagente.mundoBlocos.model.PilhaBlocos;
+import ecoagente.mundoBlocos.model.Mesa;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,23 +20,28 @@ import java.util.List;
 public class EcoAgente {
 
     public static void main(String[] args) {
-        Posicao objetivo;
+        Posicao objetivo, posInicial;
 
         
+        posInicial = new Posicao(0, 0);
         objetivo = new Posicao(4, 1);
-        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", 'A', Estado.RS, objetivo);       
+        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", 'A', Estado.RS, posInicial, objetivo);       
         
+        posInicial = new Posicao(1, 0);       
         objetivo = new Posicao(3, 1);       
-        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.RS, objetivo);
+        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.RS, posInicial, objetivo);
         
+        posInicial = new Posicao(0, 2);        
         objetivo = new Posicao(2, 1);        
-        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.RS, objetivo);
+        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.RS, posInicial, objetivo);
         
+        posInicial = new Posicao(0, 3);        
         objetivo = new Posicao(1, 1);        
-        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", 'D', Estado.RS, objetivo);
+        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", 'D', Estado.RS, posInicial, objetivo);
         
+        posInicial = new Posicao(1, 3);        
         objetivo = new Posicao(0, 1);        
-        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, objetivo);
+        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, posInicial, objetivo);
 
         List<Bloco> lstBlocos = new ArrayList<Bloco>();
         lstBlocos.add(bloco1);
@@ -43,37 +49,14 @@ public class EcoAgente {
         lstBlocos.add(bloco3);
         lstBlocos.add(bloco4);
         lstBlocos.add(bloco5);
-        
-        PilhaBlocos pilhaBlocos = new PilhaBlocos(1, "Situacao Final", 5 , 4, lstBlocos);
-        
-        
-        
-//        Bloco bloco100 = new Bloco(100, ' ');        
-//        Bloco bloco101 = new Bloco(101, ' ');        
-//        Bloco bloco102 = new Bloco(102, ' ');        
-//
-//        LinhaPilha linhaPilha01 = new LinhaPilha(1, "Linha01");
-//        linhaPilha01.adicionarBloco(bloco1);
-//        linhaPilha01.adicionarBloco(bloco100);                                        
-//        linhaPilha01.adicionarBloco(bloco2);
-//        linhaPilha01.adicionarBloco(bloco3);        
-//
-//        LinhaPilha linhaPilha02 = new LinhaPilha(2, "Linha02");        
-//        linhaPilha02.adicionarBloco(bloco4);        
-//        linhaPilha02.adicionarBloco(bloco101);
-//        linhaPilha02.adicionarBloco(bloco102);                                                
-//        linhaPilha02.adicionarBloco(bloco5);                
-//        
-//        LinkedList<LinhaPilha> linhas = new LinkedList<LinhaPilha>();
-//        linhas.addLast(linhaPilha01);
-//        linhas.addFirst(linhaPilha02);
-//        
-//        Mesa mesa = new Mesa(1, "Situação Atual", linhas);
-//        mesa.desenharTerminal();
-//        clsPSR.prt(mesa.getToken());
-//               
+              
+        Mesa mesa = new Mesa(1, "Situação Atual", lstBlocos, 2, 4);
+        mesa.desenharTerminal();
+        clsPSR.prt(mesa.getTokenMesa());
+        clsPSR.prt(mesa.getTokenObjetivo());
+               
 //        MundoBlocos mundoBlocos = new MundoBlocos(mesa);
-        
+//        
     }
 }
 
