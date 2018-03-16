@@ -5,11 +5,10 @@
  */
 package ecoagente;
 
-import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Estado;
 import ecoagente.generic.model.Posicao;
 import ecoagente.mundoBlocos.model.Bloco;
-import ecoagente.mundoBlocos.model.Mesa;
+import ecoagente.mundoBlocos.model.MundoBlocos;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +20,6 @@ public class EcoAgente {
 
     public static void main(String[] args) {
         Posicao objetivo, posInicial;
-
         
         posInicial = new Posicao(0, 0);
         objetivo = new Posicao(4, 1);
@@ -49,17 +47,18 @@ public class EcoAgente {
         lstBlocos.add(bloco3);
         lstBlocos.add(bloco4);
         lstBlocos.add(bloco5);
-              
-        Mesa mesa = new Mesa(1, "Situação Atual", lstBlocos, 2, 4);
-        mesa.desenharTerminal();
-        clsPSR.prt(mesa.getTokenMesa());
-        clsPSR.prt(mesa.getTokenObjetivo());
                
-//        MundoBlocos mundoBlocos = new MundoBlocos(mesa);
-//        
+        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 4);     
+        mundoBlocos.iniciar();
     }
 }
 
+
+              
+//        Mesa mesa = new Mesa(1, "Situação Atual", lstBlocos, 2, 4);
+//        mesa.desenharTerminal();
+//        clsPSR.prt(mesa.getTokenMesa());
+//        clsPSR.prt(mesa.getTokenObjetivo());
 
 //              
 //        //situacao desejada

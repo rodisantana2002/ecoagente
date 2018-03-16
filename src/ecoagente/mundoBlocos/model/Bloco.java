@@ -38,30 +38,18 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         setObjetivo(objetivo);
     }   
     
-    /**
-     * @return the objetivo
-     */
     public Posicao getObjetivo() {
         return objetivo;
     }
 
-    /**
-     * @param objetivo the objetivo to set
-     */
     public void setObjetivo(Posicao objetivo) {
         this.objetivo = objetivo;
     }
 
-    /**
-     * @return the posicaoAtual
-     */
     public Posicao getPosicao() {
         return posicao;
     }
 
-    /**
-     * @param posicaoAtual the posicaoAtual to set
-     */
     public void setPosicao(Posicao posicaoAtual) {
         this.posicao = posicaoAtual;
     }    

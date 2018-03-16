@@ -55,27 +55,27 @@ public class PilhaBlocos extends Agente implements itfSaidaTerminal{
                   }
                 else{
                     strPilha.append("        " );                                
-                  }                
+                }                
             }
             strPilha.append("\n");
             
             for (int coluna=0; coluna<colunas; coluna++){
                 if(matrixBlocos[linha][coluna].getAlias() != ' '){
                     strPilha.append("  | " + matrixBlocos[linha][coluna].getAlias() + " | ");
-                  }
+                }
                 else{
                     strPilha.append("        " );                                                
-                  }                
+                }                
             }            
             strPilha.append("\n");
             
             for (int coluna=0; coluna<colunas; coluna++){
                 if(matrixBlocos[linha][coluna].getAlias() != ' '){
                     strPilha.append("  +---+ " );                
-                  }
+                }
                 else{
                     strPilha.append("        " );                                
-                  }                
+                }                
             }
             strPilha.append("\n");            
             linha --;
