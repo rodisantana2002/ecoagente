@@ -19,5 +19,4 @@ public abstract class Ambiente {
         this.estado = estado;
     }   
 
-    public abstract void exibirSituacao(Agente agente);
 }

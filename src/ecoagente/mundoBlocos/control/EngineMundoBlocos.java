@@ -6,6 +6,7 @@
 package ecoagente.mundoBlocos.control;
 
 import ecoagente.generic.core.itfEngine;
+import ecoagente.generic.model.Estado;
 
 /**
  *
@@ -13,8 +14,10 @@ import ecoagente.generic.core.itfEngine;
  */
 public class EngineMundoBlocos implements itfEngine{
 
+    public EngineMundoBlocos(){ }
+    
     @Override
-    public boolean processar() {
-        return true;
+    public Estado processar() {
+        return Estado.RF;
     }   
 }

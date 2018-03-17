@@ -5,10 +5,12 @@
  */
 package ecoagente.generic.core;
 
+import ecoagente.generic.model.Estado;
+
 /**
  *
  * @author rodolfosmac
  */
 public interface itfEngine {
-    public boolean processar();
+    public Estado processar();
 }

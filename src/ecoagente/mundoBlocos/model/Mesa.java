@@ -59,9 +59,9 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         clsPSR.prt(desenharMesa());
     }    
     
-    private String desenharMesa(){
+    public String desenharMesa(){
         ///desenha o titulo da mesa
-        StringBuilder strMesa = new StringBuilder("* Mesa: " + String.valueOf(getId()) + " - " + getDescricao() + "\n\n");
+        StringBuilder strMesa = new StringBuilder("");
         
         //desnha as linhas com os blocos
         strMesa.append(desenharLinhas());
@@ -91,7 +91,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         for (int i=0; i<=3; i++){
             strMesa.append("\n|" + repeat(" ", ((numColunas * 8) - 1)) + "|");
         }                               
-        strMesa.append("\n\n" + "** Desenvolvido by aluno Rodolfo Santana ");
+        strMesa.append("\n* Mesa: " + String.valueOf(getId()) + " - " + getDescricao());
         
         return strMesa.toString();
     }
