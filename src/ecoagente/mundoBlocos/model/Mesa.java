@@ -29,6 +29,14 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         popularPilhaBlocos(linhas, colunas);
     }
 
+    public PilhaBlocos getPilhaBlocos() {
+        return pilhaBlocos;
+    }
+
+    public void setPilhaBlocos(PilhaBlocos pilhaBlocos) {
+        this.pilhaBlocos = pilhaBlocos;
+    }
+
     public String getTokenMesa() {
         return tokenMesa;
     }
@@ -38,7 +46,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
     }   
     
     private void popularPilhaBlocos(int linhas, int colunas){        
-        pilhaBlocos = new PilhaBlocos(getId(), "Pilha --> " + getDescricao(), linhas, colunas, blocos);
+        setPilhaBlocos(new PilhaBlocos(getId(), "Pilha --> " + getDescricao(), linhas, colunas, blocos));
         StringBuilder strToken = new StringBuilder("");
         StringBuilder strTokenObjetivo = new StringBuilder("");
 
@@ -98,7 +106,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
  
     private String desenharLinhas(){
         StringBuilder strLinha = new StringBuilder("");        
-        strLinha.append(pilhaBlocos.desenharPilhaBlocos());
+        strLinha.append(getPilhaBlocos().desenharPilhaBlocos());
         
         return strLinha.toString();
     }

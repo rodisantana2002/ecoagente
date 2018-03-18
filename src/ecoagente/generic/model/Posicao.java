@@ -13,6 +13,7 @@ public class Posicao {
     private int linha;
     private int coluna;
     private String descricao;
+    private String valor;
 
     public Posicao(int linha, int coluna){
         setLinha(linha);
@@ -38,5 +39,10 @@ public class Posicao {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public String getValor() {
+        valor = String.valueOf(getLinha()) + String.valueOf(getColuna());
+        return valor;
     }
 }

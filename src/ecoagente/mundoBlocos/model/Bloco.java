@@ -53,13 +53,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     public void setPosicao(Posicao posicaoAtual) {
         this.posicao = posicaoAtual;
     }    
-    
-    @Override
-    public boolean atacar(int posicao) {return true;}
-
-    @Override
-    public boolean fugir(int posicao) {return true;}
-
+        
     @Override
     public void desenharTerminal() {
         clsPSR.prt(desenharBloco());        
@@ -71,5 +65,30 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         strBloco.append("  | " + getAlias() + " |\n");        
         strBloco.append("  +---+");        
         return strBloco.toString();
+    }    
+
+    @Override
+    public String atacar(Agente agente) {
+            return " Bloco: " + getAlias() + " atacou Bloco: " + agente.getAlias();
+    }
+    
+    @Override
+    public Posicao fugir(Posicao posicao) {
+        return null;
+    }
+
+    @Override
+    public Posicao movimentar(Posicao posicao) {
+        return null;
+    }
+
+    @Override
+    public Posicao validarObjetivo(Posicao posicao) {
+        return null;
+    }
+
+    @Override
+    public void atualizarEstado(Estado estado) {
+        setEstado(estado);
     }
 }

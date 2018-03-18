@@ -5,11 +5,18 @@
  */
 package ecoagente.generic.core;
 
+import ecoagente.generic.model.Agente;
+import ecoagente.generic.model.Estado;
+import ecoagente.generic.model.Posicao;
+
 /**
  *
  * @author rodolfosmac
  */
 public interface itfAcaoAgente {
-    public boolean atacar(int posicao);    
-    public boolean fugir(int posicao);
+    public String atacar(Agente agente);    
+    public Posicao fugir(Posicao posicao);
+    public Posicao movimentar(Posicao posicao);
+    public Posicao validarObjetivo(Posicao posicao);
+    public void atualizarEstado(Estado estado);
 }
