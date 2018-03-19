@@ -118,9 +118,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
                             logs.append("       --> bloco inicia ataque contra Bloco |" + blocoPosicao.getAlias() + "|\n");
                             blocos.get(blocos.indexOf(blocoPosicao)).atualizarEstado(Estado.RF);
                             logs.append("       --> bloco " + blocoPosicao.getAlias() + " alterou seu Estado |" + Estado.RF + " - " + Estado.RF.getDescricao() + "|\n");
-                            
                         }
-                        else{ //o local é válido e esta livre, pode tentar processar a realização do seu objetivo
+                        else{ //o local é válido e esta livre, pode tentar processar a realização do seu objetivo                            
                         }
                     }
                 }
