@@ -75,6 +75,12 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         logs.append("\n\n---------------------------------------\n");
         logs.append("**  O objetivo do jogo foi atingido! **");
         logs.append("\n---------------------------------------\n");        
+        
+        for(Bloco bloco: blocos){                
+            logs.append("--> Lendo bloco: |" + bloco.getAlias() + "|\n");
+            processarBloco(bloco, mesa.getPilhaBlocos());
+        }
+        
         desenharTerminal();                                                    
     }
        
@@ -170,9 +176,12 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){
-                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() != ' '){
+                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() != ' ') {
                     return new Posicao(linha+2, coluna);
-                }                
+                }    
+                else {
+                   return new Posicao(linha, coluna);                    
+                }
             }
         }          
         return null;
