@@ -29,7 +29,7 @@ public class EcoAgente {
         objetivo = new Posicao(3, 1);       
         Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.RS, posInicial, objetivo);
         
-        posInicial = new Posicao(0, 2);        
+        posInicial = new Posicao(2,3);        
         objetivo = new Posicao(2, 1);        
         Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.RS, posInicial, objetivo);
         
