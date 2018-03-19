@@ -14,9 +14,7 @@ import ecoagente.generic.model.Posicao;
  * @author rodolfosmac
  */
 public interface itfAcaoAgente {
-    public String atacar(Agente agente);    
-    public Posicao fugir(Posicao posicao);
-    public Posicao movimentar(Posicao posicao);
-    public Posicao validarObjetivo(Posicao posicao);
+    public void atacar(Agente agente);    
+    public void fugir(Posicao posicao);
     public void atualizarEstado(Estado estado);
 }

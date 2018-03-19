@@ -19,6 +19,7 @@ import ecoagente.generic.model.Posicao;
 public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     private Posicao objetivo;
     private Posicao posicao;
+    private Bloco blocoAgressor;
         
     public Bloco(int id, char alias){
         super();
@@ -59,6 +60,14 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         clsPSR.prt(desenharBloco());        
     }  
 
+    public Bloco getBlocoAgressor() {
+        return blocoAgressor;
+    }
+
+    public void setBlocoAgressor(Bloco blocoAgressor) {
+        this.blocoAgressor = blocoAgressor;
+    }
+
     private String desenharBloco() {
         StringBuilder strBloco = new StringBuilder("");
         strBloco.append("  +---+\n");
@@ -68,23 +77,14 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     }    
 
     @Override
-    public String atacar(Agente agente) {
-            return " Bloco: " + getAlias() + " atacou Bloco: " + agente.getAlias();
+    public void atacar(Agente agente) {
+        Bloco bloco = (Bloco) agente;
+        bloco.setBlocoAgressor((bloco));
     }
     
     @Override
-    public Posicao fugir(Posicao posicao) {
-        return null;
-    }
-
-    @Override
-    public Posicao movimentar(Posicao posicao) {
-        return null;
-    }
-
-    @Override
-    public Posicao validarObjetivo(Posicao posicao) {
-        return null;
+    public void fugir(Posicao posicao) {
+        setPosicao(posicao);;
     }
 
     @Override

@@ -91,7 +91,7 @@ public class PilhaBlocos extends Agente implements itfSaidaTerminal{
         return strPilha.toString();        
     }
     
-    private void popularMatrixBlocos() {
+    public void popularMatrixBlocos() {
         setMatrixBlocos(new Bloco[linhas][colunas]);
         
         for (Bloco bloco : blocos){

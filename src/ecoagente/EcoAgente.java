@@ -48,7 +48,7 @@ public class EcoAgente {
         lstBlocos.add(bloco4);
         lstBlocos.add(bloco5);
                
-        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 4);     
+        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 5);     
         mundoBlocos.processarMovimentos();
     }
 }
