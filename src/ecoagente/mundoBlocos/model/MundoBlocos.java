@@ -13,20 +13,19 @@ import ecoagente.generic.model.Estado;
 import ecoagente.generic.model.Posicao;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
  * @author rodolfosmac
  */
 public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
-    private List<Bloco> blocos;
-    private StringBuilder logs;
-    private clsTrataDatas trataDatas;
+    private final List<Bloco> blocos;
+    private final StringBuilder logs;
+    private final clsTrataDatas trataDatas;
     
     private Mesa mesa;
-    private int linhas, colunas;
-    private int idMovimento;
+    private final int linhas;
+    private final int colunas;
     
     public MundoBlocos(List<Bloco> blocos, int linhas, int colunas){
         super();
@@ -35,14 +34,11 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         this.colunas = colunas;
         this.logs = new StringBuilder("");
         trataDatas = new clsTrataDatas();
-        idMovimento = 1;
         iniciar();
     }   
     
     private void iniciar(){      
-        Scanner sc = new Scanner(System.in);
-        
-        logs.append("** Iniciando Movimentos. \n");                        
+        logs.append("** Iniciando Movimentos. (" + trataDatas.getDataAtual() + ")\n");                        
         for (Bloco bloco : blocos){
             logs.append("   --> Bloco: " + bloco.getAlias() + "  -  criado e adicionado na mesa."+  "\n");
             //atualiza Estado do bloco para buscando Satistação                
@@ -50,32 +46,35 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
             logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");                                        
          }
         
-        mesa = new Mesa(01, "Situação Inicial", blocos, linhas, colunas);        
+        mesa = new Mesa(0, "Situação Inicial", blocos, linhas, colunas);        
         logs.append(mesa.desenharMesa() + "\n");
-        logs.append("--------------------------------------------------------------\n\n");
+        logs.append("------------------------------------------------------------------\n\n");
     }
 
     public void processarMovimentos() {                              
         //percore loop em busca da solução do probelma
-        for (int i=1;i<50;i++){            
-            logs.append("\n\n** Processando Movimento - " + String.valueOf(i) + "\n");               
+        for (int idMovimento=1;idMovimento<50;idMovimento++){            
+            logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) + "\n");               
             for(Bloco bloco: blocos){                
                 logs.append("   --> Lendo bloco: |" + bloco.getAlias() + "|\n");
                 processarBloco(bloco, mesa.getPilhaBlocos());
             }
 
-            mesa = new Mesa(idMovimento, "Movimento" + String.valueOf(i), blocos, linhas, colunas);            
+            mesa = new Mesa(idMovimento, "Movimento" + String.valueOf(idMovimento), blocos, linhas, colunas);            
             logs.append(mesa.desenharMesa() + "\n");
-            logs.append("--------------------------------------------------------------\n\n");            
+            logs.append("------------------------------------------------------------------\n\n");            
             
+            //regra de valida se o objetivo geral foi atingido 
             if(mesa.getTokenMesa().equals(mesa.getTokenObjetivo())){
                 break;
             }                       
         }
-        logs.append("\n\n---------------------------------------\n");
-        logs.append("**  O objetivo do jogo foi atingido! **");
-        logs.append("\n---------------------------------------\n");        
+        //objetivo atingindo finaliza o jogo
+        logs.append("\n\n------------------------------------------------------------------\n");
+        logs.append("           **  O objetivo do jogo foi atingido! **");
+        logs.append("\n------------------------------------------------------------------\n");        
         
+        //apenas lista o Estado final dos Blocos
         for(Bloco bloco: blocos){                
             logs.append("--> Lendo bloco: |" + bloco.getAlias() + "|\n");
             processarBloco(bloco, mesa.getPilhaBlocos());
@@ -109,10 +108,14 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
                     if(bloco.getEstado()==Estado.RS){
                         logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! \n");                      
                         blocos.get(blocos.indexOf(bloco)).fugir(movimentarPosicaoDisponivel(pilhaBlocos));
+                        logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                             
+                        blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.F);                                    
                         logs.append("       --> bloco realiza um movimento de fuga para a primeira posicao livre encontrada! \n");                                              
+                        blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                               
+                        logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");                             
                     }
                     else{
-                        logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! \n");                      
+                        logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois a gravidade não permitiu!\n");                      
                     }
                 }
             }
@@ -176,11 +179,21 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){
-                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() != ' ') {
-                    return new Posicao(linha+2, coluna);
+                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() == ' ') {
+                    if (linha==0){
+                        return new Posicao(linha, coluna);
+                    }
+                    else{
+                        if(pilhaBlocos.getMatrixBlocos()[linha-1][coluna].getAlias() != ' '){
+                            return new Posicao(linha, coluna);
+                        }
+                        else{
+                            break;
+                        }
+                    }
                 }    
                 else {
-                   return new Posicao(linha, coluna);                    
+                   break; 
                 }
             }
         }          

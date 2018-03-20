@@ -15,8 +15,8 @@ import java.util.List;
  * @author rodolfosmac
  */
 public class Mesa extends Agente implements itfSaidaTerminal{
-    private int numColunas;
-    private List<Bloco> blocos;
+    private final int numColunas;
+    private final List<Bloco> blocos;
     private PilhaBlocos pilhaBlocos;
     private String tokenMesa, tokenObjetivo;
 
@@ -95,7 +95,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
             }            
         }
         
-        //desenha os pes
+        //desenha os pes da mesa
         for (int i=0; i<=3; i++){
             strMesa.append("\n|" + repeat(" ", ((numColunas * 8) - 1)) + "|");
         }                               

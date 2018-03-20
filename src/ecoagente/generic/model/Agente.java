@@ -14,8 +14,7 @@ public abstract class Agente {
     private String descricao;
     private char alias;
     private Estado estado;   
-    private String historico;
-   
+       
 
     public int getId() {
         return id;
@@ -43,13 +42,5 @@ public abstract class Agente {
     }
     public void setAlias(char alias) {
         this.alias = alias;
-    }
-
-    public String getHistorico() {
-        return historico;
-    }
-
-    public void setHistorico(String historico) {
-        this.historico = historico;
     }
 }

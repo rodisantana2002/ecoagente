@@ -12,7 +12,6 @@ package ecoagente.generic.model;
 public class Posicao {
     private int linha;
     private int coluna;
-    private String descricao;
     private String valor;
 
     public Posicao(int linha, int coluna){
@@ -32,13 +31,6 @@ public class Posicao {
     }
     public void setColuna(int termino) {
         this.coluna = termino;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public String getValor() {

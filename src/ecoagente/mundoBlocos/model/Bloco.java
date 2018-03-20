@@ -84,7 +84,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     
     @Override
     public void fugir(Posicao posicao) {
-        setPosicao(posicao);;
+        setPosicao(posicao);
     }
 
     @Override
