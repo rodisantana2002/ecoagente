@@ -48,76 +48,8 @@ public class EcoAgente {
         lstBlocos.add(bloco4);
         lstBlocos.add(bloco5);
                
-        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 4);     
-        mundoBlocos.processarMovimentos();
+        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 4);   
+        mundoBlocos.setEstado(Estado.RS);
+        mundoBlocos.processar();
     }
 }
-
-
-              
-//        Mesa mesa = new Mesa(1, "Situação Atual", lstBlocos, 2, 4);
-//        mesa.desenharTerminal();
-//        clsPSR.prt(mesa.getTokenMesa());
-//        clsPSR.prt(mesa.getTokenObjetivo());
-
-//              
-//        //situacao desejada
-//        LinhaPilha linhaPilhades01 = new LinhaPilha(1, "Linha01");        
-//        linhaPilhades01.adicionarBloco(bloco0);        
-//        linhaPilhades01.adicionarBloco(bloco0);
-//        linhaPilhades01.adicionarBloco(bloco0);                                                
-//        linhaPilhades01.adicionarBloco(bloco1);                
-//
-//        LinhaPilha linhaPilhades02 = new LinhaPilha(2, "Linha02");        
-//        linhaPilhades02.adicionarBloco(bloco0);        
-//        linhaPilhades02.adicionarBloco(bloco0);
-//        linhaPilhades02.adicionarBloco(bloco0);                                                
-//        linhaPilhades02.adicionarBloco(bloco2);                
-//        
-//        LinhaPilha linhaPilhades03 = new LinhaPilha(3, "Linha03");        
-//        linhaPilhades03.adicionarBloco(bloco0);        
-//        linhaPilhades03.adicionarBloco(bloco0);
-//        linhaPilhades03.adicionarBloco(bloco0);                                                
-//        linhaPilhades03.adicionarBloco(bloco3);                
-//                
-//        LinhaPilha linhaPilhades04 = new LinhaPilha(4, "Linha04");        
-//        linhaPilhades04.adicionarBloco(bloco0);        
-//        linhaPilhades04.adicionarBloco(bloco0);
-//        linhaPilhades04.adicionarBloco(bloco0);                                                
-//        linhaPilhades04.adicionarBloco(bloco4);                
-//        
-//        LinhaPilha linhaPilhades05 = new LinhaPilha(5, "Linha05");        
-//        linhaPilhades05.adicionarBloco(bloco0);        
-//        linhaPilhades05.adicionarBloco(bloco0);
-//        linhaPilhades05.adicionarBloco(bloco0);                                                
-//        linhaPilhades05.adicionarBloco(bloco5);                
-//                
-//        LinkedList<LinhaPilha> linhasdes = new LinkedList<LinhaPilha>();
-//        linhasdes.addLast(linhaPilhades05);
-//        linhasdes.addLast(linhaPilhades04);
-//        linhasdes.addLast(linhaPilhades03);
-//        linhasdes.addLast(linhaPilhades02);
-//        linhasdes.addLast(linhaPilhades01);
-//        
-//        Mesa mesades = new Mesa(2, "Situação Desejada", linhasdes);
-//        mesades.desenharTerminal();
-//        clsPSR.prt(mesades.getToken());
-
-//        new Agente("Quadrado 01").start();
-//        new Agente("Quadrado 02").start();
-
-//
-//class Agente extends Thread {
-//    public Agente(String str) {
-//        super(str);
-//    }
-//    public void run() {
-//        for (int i = 0; i < 10; i++) {
-//            System.out.println(i + " " + getName());
-//            try {
-//                sleep((long)(Math.random() * 1000));
-//            } catch (InterruptedException e) {}
-//        }
-//        System.out.println("DONE! " + getName());
-//    }
-//}

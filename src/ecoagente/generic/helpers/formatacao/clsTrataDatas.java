@@ -12,10 +12,6 @@ public class clsTrataDatas {
    private SimpleDateFormat formatIso;
    private SimpleDateFormat formatBra;
    private Date   date;
-   private String strDate;
-   private int    intMes;
-   private int    intDia;
-   private int    intAno;
 
    public clsTrataDatas() {
       formatIso = new SimpleDateFormat("yyyy-MM-dd");

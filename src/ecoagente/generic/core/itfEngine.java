@@ -5,12 +5,10 @@
  */
 package ecoagente.generic.core;
 
-import ecoagente.generic.model.Agente;
-
 /**
  *
  * @author rodolfosmac
  */
 public interface itfEngine {
-    public Agente processar();
+    public void processar();
 }

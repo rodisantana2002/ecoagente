@@ -5,6 +5,7 @@
  */
 package ecoagente.mundoBlocos.model;
 
+import ecoagente.generic.core.itfEngine;
 import ecoagente.generic.core.itfSaidaTerminal;
 import ecoagente.generic.helpers.formatacao.clsTrataDatas;
 import ecoagente.generic.helpers.mensagens.clsPSR;
@@ -18,7 +19,7 @@ import java.util.Random;
  *
  * @author rodolfosmac
  */
-public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
+public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine{
     private final List<Bloco> blocos;
     private final StringBuilder logs;
     private final clsTrataDatas trataDatas;
@@ -51,13 +52,13 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         logs.append("------------------------------------------------------------------\n\n");
     }
 
-    public void processarMovimentos() {                              
+    public void processar() {                              
         //percore loop em busca da solução do probelma
         for (int idMovimento=1;idMovimento<50;idMovimento++){            
             logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) + "\n");               
             for(Bloco bloco: blocos){                
                 logs.append("   --> Lendo bloco: |" + bloco.getAlias() + "|\n");
-                processarBloco(bloco, mesa.getPilhaBlocos());
+                processarAcaoBloco(bloco, mesa.getPilhaBlocos());
             }
 
             mesa = new Mesa(idMovimento, "Movimento" + String.valueOf(idMovimento), blocos, linhas, colunas);            
@@ -65,7 +66,9 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
             logs.append("------------------------------------------------------------------\n\n");            
             
             //regra de valida se o objetivo geral foi atingido 
-            if(mesa.getTokenMesa().equals(mesa.getTokenObjetivo())){
+            if(mesa.isSatisfeito()){
+                //Ambiente muda seu estado para satisfeito
+                setEstado(Estado.S);
                 break;
             }                       
         }
@@ -77,13 +80,13 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         //apenas lista o Estado final dos Blocos
         for(Bloco bloco: blocos){                
             logs.append("--> Lendo bloco: |" + bloco.getAlias() + "|\n");
-            processarBloco(bloco, mesa.getPilhaBlocos());
+            processarAcaoBloco(bloco, mesa.getPilhaBlocos());
         }
         
         desenharTerminal();                                                    
     }
        
-    private void processarBloco(Bloco bloco, PilhaBlocos pilhaBlocos){
+    private void processarAcaoBloco(Bloco bloco, PilhaBlocos pilhaBlocos){
 
         if(!bloco.getPosicao().getValor().equals(bloco.getObjetivo().getValor())){                    
             if(blocos.get(blocos.indexOf(bloco)).getEstado() != Estado.RF){                
@@ -107,7 +110,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
                 else{
                     if(bloco.getEstado()==Estado.RS){
                         logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! \n");                      
-                        blocos.get(blocos.indexOf(bloco)).fugir(movimentarPosicaoDisponivel(pilhaBlocos));
+                        blocos.get(blocos.indexOf(bloco)).fugir(obterPosicaoDisponivel(pilhaBlocos));
                         logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                             
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.F);                                    
                         logs.append("       --> bloco realiza um movimento de fuga para a primeira posicao livre encontrada! \n");                                              
@@ -122,7 +125,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
             //efetua log e atualiza Estado do Bloco            
             else{
                 logs.append("       --> bloco não consegue realizar seu objetivo. Pois existe um outro bloco impedindo seu movimento!\n"); 
-                Bloco blocoImpedimento = getBlocoImpedimento(bloco.getPosicao(), pilhaBlocos);
+                Bloco blocoImpedimento = obterBlocoImpedimento(bloco.getPosicao(), pilhaBlocos);
                 logs.append("       --> bloco inicia ataque ao bloco que esta impedindo. |" + blocoImpedimento.getAlias() +"|\n");
                 blocos.get(blocos.indexOf(blocoImpedimento)).atualizarEstado(Estado.RF);            
                 logs.append("       --> o estado do bloco que esta o impedindo, foi alterado para " + Estado.RF + " - " + Estado.RF.getDescricao() + "\n");     
@@ -144,8 +147,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         return false;
     }
     
-    private boolean obterSatsfacao(Posicao posicao, PilhaBlocos pilhaBlocos){        
-       
+    private boolean obterSatsfacao(Posicao posicao, PilhaBlocos pilhaBlocos){               
         //o objetivo esta disponivel        
         if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()][posicao.getColuna()].getAlias() == ' '){
             //o objetivo pode ser utilizado (leis da fisica)
@@ -165,7 +167,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         return false;
     }
     
-    private Bloco getBlocoImpedimento(Posicao posicao, PilhaBlocos pilhaBlocos){
+    //identificar qual é o bloco que esta impedindo o movimento
+    private Bloco obterBlocoImpedimento(Posicao posicao, PilhaBlocos pilhaBlocos){
         Bloco bloco = new Bloco(new Random(999).nextInt(), ' ');
         
         if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() != ' '){
@@ -175,8 +178,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal{
         return bloco;
     }        
     
-    private Posicao movimentarPosicaoDisponivel(PilhaBlocos pilhaBlocos) {
-        
+    //percorre a pilha de blocos em busca do primeiro local disponivel para realizar o movimento
+    private Posicao obterPosicaoDisponivel(PilhaBlocos pilhaBlocos) {        
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){
                 if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() == ' ') {

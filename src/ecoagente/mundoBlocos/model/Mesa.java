@@ -45,6 +45,14 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         return tokenObjetivo;
     }   
     
+    public boolean isSatisfeito(){
+        if (this.tokenMesa.equals(this.tokenObjetivo)){
+            return true;
+        }
+        return false;
+    }
+    
+    //distribui os blocos nas pilhas da mesa
     private void popularPilhaBlocos(int linhas, int colunas){        
         setPilhaBlocos(new PilhaBlocos(getId(), "Pilha --> " + getDescricao(), linhas, colunas, blocos));
         StringBuilder strToken = new StringBuilder("");
