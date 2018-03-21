@@ -52,9 +52,10 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         logs.append("------------------------------------------------------------------\n\n");
     }
 
+    @Override
     public void processar() {                              
         //percore loop em busca da solução do probelma
-        for (int idMovimento=1;idMovimento<50;idMovimento++){            
+        for (int idMovimento=1;idMovimento<=50;idMovimento++){            
             logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) + "\n");               
             for(Bloco bloco: blocos){                
                 logs.append("   --> Lendo bloco: |" + bloco.getAlias() + "|\n");
