@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ecoagente.mundoBlocos.model;
+package ecoagente.mundoBlocos.control;
 
 import ecoagente.generic.core.itfEngine;
 import ecoagente.generic.core.itfSaidaTerminal;
@@ -12,6 +12,9 @@ import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Ambiente;
 import ecoagente.generic.model.Estado;
 import ecoagente.generic.model.Posicao;
+import ecoagente.mundoBlocos.model.Bloco;
+import ecoagente.mundoBlocos.model.Mesa;
+import ecoagente.mundoBlocos.model.PilhaBlocos;
 import java.util.List;
 import java.util.Random;
 
@@ -55,7 +58,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     @Override
     public void processar() {                              
         //percore loop em busca da solução do probelma
-        for (int idMovimento=1;idMovimento<=50;idMovimento++){            
+        for (int idMovimento=1;idMovimento<=50;idMovimento++){                                   
             logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) + "\n");               
             for(Bloco bloco: blocos){                
                 logs.append("   --> Lendo bloco: |" + bloco.getAlias() + "|\n");
@@ -71,7 +74,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                 //Ambiente muda seu estado para satisfeito
                 setEstado(Estado.S);
                 break;
-            }                       
+            }   
         }
         //objetivo atingindo finaliza o jogo
         logs.append("\n\n------------------------------------------------------------------\n");
@@ -82,13 +85,14 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         for(Bloco bloco: blocos){                
             logs.append("--> Lendo bloco: |" + bloco.getAlias() + "|\n");
             processarAcaoBloco(bloco, mesa.getPilhaBlocos());
+            mesa.getPilhaBlocos().popularMatrixBlocos();
         }
         
         desenharTerminal();                                                    
     }
        
     private void processarAcaoBloco(Bloco bloco, PilhaBlocos pilhaBlocos){
-
+        //identificar se o Bloco esta Satisfeito em sua posicaão inicial
         if(!bloco.getPosicao().getValor().equals(bloco.getObjetivo().getValor())){                    
             if(blocos.get(blocos.indexOf(bloco)).getEstado() != Estado.RF){                
                 logs.append("       --> bloco irá tentar satisfazer seu objetivo.\n");                
@@ -100,11 +104,10 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
             
             //o bloco consegue se movimentar
             if(validarMovimento(bloco.getPosicao(), pilhaBlocos)){                        
-                //identificar se o Bloco esta Satisfeito em sua posicaão inicial
+                //identificar se o Bloco consegue obter sua satisfação
                 if(obterSatsfacao(bloco.getObjetivo(), pilhaBlocos)){
                     logs.append("       --> bloco consegue realizar seu objetivo " + "\n");            
-                    logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");            
-                    
+                    logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                                
                     blocos.get(blocos.indexOf(bloco)).fugir(bloco.getObjetivo());
                     blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.S);            
                 }
@@ -118,7 +121,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                               
                         logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");                             
                     }
-                    else{
+                    else{                        
                         logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois a gravidade não permitiu!\n");                      
                     }
                 }
@@ -138,8 +141,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         }                    
         pilhaBlocos.popularMatrixBlocos();
     }
-    
-    
+        
     private boolean validarMovimento(Posicao posicao, PilhaBlocos pilhaBlocos){
         //existe um outro bloco impedido o movimento (acima)
         if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() == ' '){            
@@ -206,8 +208,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     
     @Override
     public void desenharTerminal() {
-        clsPSR.prt(logs.toString());        
-    }       
+        clsPSR.prt(logs.toString());                                                    
+    }    
 }
 
 
