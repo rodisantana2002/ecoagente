@@ -45,6 +45,10 @@ public class EcoAgente {
         Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, posInicial, objetivo);
 
         
+        posInicial = new Posicao(0,2);        
+        objetivo = new Posicao(5, 1);        
+        Bloco bloco6 = new Bloco(6, "Bloco de Teste6", 'F', Estado.RS, posInicial, objetivo);        
+        
         //---------------------------------------------------------------------------------------------------
         //  CONFIGURAÇÃO EXEMPLO 02
         //---------------------------------------------------------------------------------------------------        
@@ -99,8 +103,9 @@ public class EcoAgente {
         lstBlocos.add(bloco3);
         lstBlocos.add(bloco4);
         lstBlocos.add(bloco5);
+        lstBlocos.add(bloco6);
                
-        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 5, 4);   
+        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 6, 4);   
         mundoBlocos.setEstado(Estado.RS);
         mundoBlocos.processar();
     }

@@ -8,6 +8,7 @@ package ecoagente.mundoBlocos.model;
 import ecoagente.generic.core.itfSaidaTerminal;
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Agente;
+import ecoagente.generic.model.Estado;
 import java.util.List;
 
 /**
@@ -26,6 +27,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         setDescricao(descricao);
         this.numColunas = colunas;
         this.blocos = blocos;
+        setEstado(Estado.RS);
         popularPilhaBlocos(linhas, colunas);
     }
 
@@ -44,7 +46,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
     public String getTokenObjetivo() {
         return tokenObjetivo;
     }   
-    
+        
     public boolean isSatisfeito(){
         if (this.tokenMesa.equals(this.tokenObjetivo)){
             return true;
@@ -108,6 +110,9 @@ public class Mesa extends Agente implements itfSaidaTerminal{
             strMesa.append("\n|" + repeat(" ", ((numColunas * 8) - 1)) + "|");
         }                               
         strMesa.append("\n* Mesa: " + String.valueOf(getId()) + " - " + getDescricao());
+        strMesa.append("\n------------------------------------------------------------------");                    
+        strMesa.append("\n* ...Token Atual...: " + getTokenMesa());
+        strMesa.append("\n* ...Token Objetivo: " + getTokenObjetivo());
         
         return strMesa.toString();
     }
@@ -123,4 +128,3 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         return new String(new char[times]).replace("\0", str);
     }    
 }
-

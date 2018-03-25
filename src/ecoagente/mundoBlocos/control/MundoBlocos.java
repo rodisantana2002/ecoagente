@@ -30,42 +30,43 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     private Mesa mesa;
     private final int linhas;
     private final int colunas;
+    private final int numCiclos=100;
     
     public MundoBlocos(List<Bloco> blocos, int linhas, int colunas){
         super();
         this.blocos = blocos;   
         this.linhas = linhas;
-        this.colunas = colunas;
+        this.colunas = colunas;       
         this.logs = new StringBuilder("");
         trataDatas = new clsTrataDatas();
         iniciar();
     }   
     
     private void iniciar(){      
-        logs.append("** Iniciando Movimentos. (" + trataDatas.getDataAtual() + ")\n");                        
+        logs.append("** Iniciando Movimentos.\n");                        
         for (Bloco bloco : blocos){
             logs.append("   --> Bloco: " + bloco.getAlias() + "  -  criado e adicionado na mesa."+  "\n");
             //atualiza Estado do bloco para buscando Satistação                
             blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                                            
-            logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");                                        
+            logs.append("       ... o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");                                        
          }
         
         mesa = new Mesa(0, "Situação Inicial", blocos, linhas, colunas);        
-        logs.append(mesa.desenharMesa() + "\n");
+        logs.append(mesa.desenharMesa() +  "\n");
         logs.append("------------------------------------------------------------------\n\n");
     }
 
     @Override
     public void processar() {                              
         //percore loop em busca da solução do probelma
-        for (int idMovimento=1;idMovimento<=300;idMovimento++){                                   
-            logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) + "\n");               
+        for (int idMovimento=1; idMovimento<=numCiclos; idMovimento++){                                   
+            logs.append("\n\n** Processando Movimento - " + String.valueOf(idMovimento) +  " (Estado: " + getEstado().name() + " - " + getEstado().getDescricao() + ")\n");               
             for(Bloco bloco: blocos){                
                 logs.append("   --> Lendo bloco: |" + bloco.getAlias() + "|\n");
                 processarAcaoBloco(bloco, mesa.getPilhaBlocos());
             }
 
-            mesa = new Mesa(idMovimento, "Movimento" + String.valueOf(idMovimento), blocos, linhas, colunas);            
+            mesa = new Mesa(idMovimento, "Movimento: " + String.valueOf(idMovimento), blocos, linhas, colunas);            
             logs.append(mesa.desenharMesa() + "\n");
             logs.append("------------------------------------------------------------------\n\n");            
             
@@ -78,7 +79,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         }
         //objetivo atingindo finaliza o jogo
         logs.append("\n\n------------------------------------------------------------------\n");
-        logs.append("           **  O objetivo do jogo foi atingido! **");
+        logs.append("         (Amebiente econtra-se em Estado: " + getEstado().name() + " - " + getEstado().getDescricao() + ")\n"); 
+        logs.append("             ** O objetivo do jogo foi atingido **");
         logs.append("\n------------------------------------------------------------------\n");        
         
         //apenas lista o Estado final dos Blocos
@@ -87,7 +89,9 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
             processarAcaoBloco(bloco, mesa.getPilhaBlocos());
             mesa.getPilhaBlocos().popularMatrixBlocos();
         }
+        logs.append("------------------------------------------------------------------");        
         
+        //imprime tudo no terminal
         desenharTerminal();                                                    
     }
        
@@ -95,52 +99,54 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         //identificar se o Bloco esta Satisfeito em sua posicaão inicial
         if(!bloco.getPosicao().getValor().equals(bloco.getObjetivo().getValor())){                    
             if(blocos.get(blocos.indexOf(bloco)).getEstado() != Estado.RF){                
-                logs.append("       --> bloco irá tentar satisfazer seu objetivo.\n");                
+                logs.append("       ... bloco irá tentar satisfazer seu objetivo.\n");                
             }
             else{
-                logs.append("       --> bloco encontra-se sob ataque!\n");
-                logs.append("       --> bloco irá procurar um local para fugir \n");                
+                logs.append("       ... bloco encontra-se sob ataque!\n");
+                logs.append("       ... bloco irá procurar um local para fugir \n");                
             }
             
             //o bloco consegue se movimentar
             if(validarMovimento(bloco.getPosicao(), pilhaBlocos)){                        
                 //identificar se o Bloco consegue obter sua satisfação
                 if(validarSatsfacaoBloco(bloco.getObjetivo(), pilhaBlocos)){
-                    logs.append("       --> bloco consegue realizar seu objetivo " + "\n");            
-                    logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                                
+                    logs.append("       ... bloco consegue realizar seu objetivo " + "\n");            
+                    logs.append("       ... o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                                
                     blocos.get(blocos.indexOf(bloco)).fugir(bloco.getObjetivo());
                     blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.S);            
                 }
                 else{
                     if(bloco.getEstado()==Estado.RF){                        
-                        logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! \n");                      
+                        logs.append("       ... bloco tentou satisfazer seu objetivo, mas não teve sucesso!  Pois o bloco ficaria flutuando (lei da gravidade) \n");                      
                         blocos.get(blocos.indexOf(bloco)).fugir(obterPosicaoDisponivel(pilhaBlocos));
-                        logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                             
+                        logs.append("       ... o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                             
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.F);                                    
-                        logs.append("       --> bloco realiza um movimento de fuga para a primeira posicao livre encontrada! \n");                                              
+                        logs.append("       ... bloco realiza um movimento de fuga para a primeira posicao válida encontrada! \n");                                              
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                               
-                        logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
+                        logs.append("       ... o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
                         blocos.get(blocos.indexOf(bloco)).setAgressor(null);                                                            
                     }
                     else{
-                        logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois o bloco ficaria flutuando (lei da gravidade)\n");                                              
-                        logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
+                        logs.append("       ... bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois o bloco ficaria flutuando (lei da gravidade)\n");                                              
+                        logs.append("       ... o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
                     }
                 }
             }
             //efetua log e atualiza Estado do Bloco            
             else{
-                logs.append("       --> bloco não consegue realizar seu objetivo. Pois existe um outro bloco impedindo seu movimento!\n"); 
+                logs.append("       ... bloco não consegue realizar seu objetivo. Pois existe um outro bloco impedindo seu movimento!\n"); 
                 Bloco blocoImpedimento = obterBlocoImpedimento(bloco.getPosicao(), pilhaBlocos);
-                logs.append("       --> bloco inicia ataque ao bloco que esta impedindo. |" + blocoImpedimento.getAlias() +"|\n");
+                logs.append("       ... bloco inicia ataque ao bloco que esta impedindo. |" + blocoImpedimento.getAlias() +"|\n");
                 blocos.get(blocos.indexOf(blocoImpedimento)).atualizarEstado(Estado.RF);            
-                logs.append("       --> o estado do bloco que esta o impedindo, foi alterado para " + Estado.RF + " - " + Estado.RF.getDescricao() + "\n");     
+                logs.append("       ... o estado do bloco que esta o impedindo, foi alterado para " + Estado.RF + " - " + Estado.RF.getDescricao() + "\n");     
             }
         }
         else{
              blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.S);                            
-             logs.append("       --> O Bloco já esta em Estado de Satisfação: " +  Estado.S + " - " + Estado.S.getDescricao() + "\n\n");
-        }                    
+             logs.append("       ... O Bloco já esta em Estado de Satisfação: " +  Estado.S + " - " + Estado.S.getDescricao() + "\n\n");
+        }      
+        
+        //atualiza a pilha dos blcoos, pois podem ter sido realizados movimentos nos blocos
         pilhaBlocos.popularMatrixBlocos();
     }
         
@@ -230,5 +236,3 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         clsPSR.prt(logs.toString());                                                    
     }    
 }
-
-
