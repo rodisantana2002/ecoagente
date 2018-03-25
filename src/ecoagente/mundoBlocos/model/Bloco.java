@@ -19,6 +19,7 @@ import ecoagente.generic.model.Posicao;
 public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     private Posicao objetivo;
     private Posicao posicao;
+    private Bloco agressor;
         
     public Bloco(int id, char alias){
         super();
@@ -40,6 +41,14 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     
     public Posicao getObjetivo() {
         return objetivo;
+    }
+
+    public Bloco getAgressor() {
+        return agressor;
+    }
+
+    public void setAgressor(Bloco agressor) {
+        this.agressor = agressor;
     }
 
     public void setObjetivo(Posicao objetivo) {

@@ -12,7 +12,7 @@ import ecoagente.generic.model.Agente;
  *
  * @author rodolfosmac
  */
-public class PilhaDiscos extends Agente implements itfSaidaTerminal {
+public class Base extends Agente implements itfSaidaTerminal{
 
     @Override
     public void desenharTerminal() {}

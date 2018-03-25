@@ -13,9 +13,7 @@ public abstract class Agente {
     private int id;
     private String descricao;
     private char alias;
-    private Estado estado;   
-    private Agente agressor;
-       
+    private Estado estado;         
 
     public int getId() {
         return id;
@@ -43,13 +41,5 @@ public abstract class Agente {
     }
     public void setAlias(char alias) {
         this.alias = alias;
-    }
-
-    public Agente getAgressor() {
-        return agressor;
-    }
-
-    public void setAgressor(Agente agressor) {
-        this.agressor = agressor;
     }
 }
