@@ -112,15 +112,19 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                     blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.S);            
                 }
                 else{
-                    if(bloco.getEstado()==Estado.RS){                        
+                    if(bloco.getEstado()==Estado.RF){                        
                         logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! \n");                      
-                        blocos.get(blocos.indexOf(bloco)).fugir(obterPosicaoDisponivel(pilhaBlocos, bloco.getAgressor()));
+                        blocos.get(blocos.indexOf(bloco)).fugir(obterPosicaoDisponivel(pilhaBlocos));
                         logs.append("       --> o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                             
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.F);                                    
                         logs.append("       --> bloco realiza um movimento de fuga para a primeira posicao livre encontrada! \n");                                              
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                               
                         logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
                         blocos.get(blocos.indexOf(bloco)).setAgressor(null);                                                            
+                    }
+                    else{
+                        logs.append("       --> bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois o bloco ficaria flutuando (lei da gravidade)\n");                                              
+                        logs.append("       --> o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
                     }
                 }
             }
@@ -178,21 +182,32 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         
         return bloco;
     }        
-    
+
+    //metodo que garante qye ao realizar um movmento o bloco não vá para o objetivo de outro bloco
+    private boolean isObjetivoOutroBloco(Posicao posicao){
+        for (Bloco bloco :blocos){
+            if (bloco.getObjetivo().getLinha() == posicao.getLinha() && 
+                bloco.getObjetivo().getColuna() == posicao.getColuna()){
+                return true;
+            }
+        }
+        return false;
+    }
+            
     //percorre a pilha de blocos em busca do primeiro local disponivel para realizar o movimento
-    private Posicao obterPosicaoDisponivel(PilhaBlocos pilhaBlocos, Bloco agressor) {        
+    private Posicao obterPosicaoDisponivel(PilhaBlocos pilhaBlocos) {        
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){
                 if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() == ' ') {
                     if (linha==0){
-                        if ((agressor!=null) && (agressor.getObjetivo().getLinha() == linha && agressor.getObjetivo().getColuna() == coluna)){
+                        if (isObjetivoOutroBloco(new Posicao(linha, coluna))){
                             continue;
                         }
                         return new Posicao(linha, coluna);
                     }
                     else{
                         if(pilhaBlocos.getMatrixBlocos()[linha-1][coluna].getAlias() != ' '){
-                            if ((agressor!=null) && (agressor.getObjetivo().getLinha() == linha && agressor.getObjetivo().getColuna() == coluna)){
+                            if (isObjetivoOutroBloco(new Posicao(linha, coluna))){
                                 continue;
                             }                            
                             return new Posicao(linha, coluna);
@@ -203,7 +218,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                     }
                 }    
                 else {
-                   break; 
+                   continue; 
                 }
             }
         }          
