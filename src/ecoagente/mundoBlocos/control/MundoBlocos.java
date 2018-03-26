@@ -71,7 +71,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
             logs.append("------------------------------------------------------------------\n\n");            
             
             //regra de valida se o objetivo geral foi atingido 
-            if(mesa.isSatisfeito()){
+            if(mesa.validarToken()){
                 //Ambiente muda seu estado para satisfeito
                 setEstado(Estado.S);
                 break;

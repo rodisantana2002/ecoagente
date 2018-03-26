@@ -47,8 +47,24 @@ public class EcoAgente {
         
         posInicial = new Posicao(0,2);        
         objetivo = new Posicao(5, 1);        
-        Bloco bloco6 = new Bloco(6, "Bloco de Teste6", 'F', Estado.RS, posInicial, objetivo);        
+        Bloco bloco6 = new Bloco(6, "Bloco de Teste6", 'F', Estado.RS, posInicial, objetivo);                        
         
+        //adiciona configuração de blocos na lista que será passado ao processamento do Mundo dos Blocos
+        List<Bloco> lstBlocos = new ArrayList();
+        lstBlocos.add(bloco1);
+        lstBlocos.add(bloco2);
+        lstBlocos.add(bloco3);
+        lstBlocos.add(bloco4);
+        lstBlocos.add(bloco5);
+        lstBlocos.add(bloco6);
+               
+        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 6, 4);   
+        mundoBlocos.setEstado(Estado.RS);
+        mundoBlocos.processar();
+    }
+}
+
+
         //---------------------------------------------------------------------------------------------------
         //  CONFIGURAÇÃO EXEMPLO 02
         //---------------------------------------------------------------------------------------------------        
@@ -94,19 +110,3 @@ public class EcoAgente {
 //        posInicial = new Posicao(0, 1);        
 //        objetivo = new Posicao(0, 1);        
 //        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, posInicial, objetivo);
-        
-        
-        //adiciona configuração de blocos na lista que será passado ao processamento do Mundo dos Blocos
-        List<Bloco> lstBlocos = new ArrayList<Bloco>();
-        lstBlocos.add(bloco1);
-        lstBlocos.add(bloco2);
-        lstBlocos.add(bloco3);
-        lstBlocos.add(bloco4);
-        lstBlocos.add(bloco5);
-        lstBlocos.add(bloco6);
-               
-        MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, 6, 4);   
-        mundoBlocos.setEstado(Estado.RS);
-        mundoBlocos.processar();
-    }
-}

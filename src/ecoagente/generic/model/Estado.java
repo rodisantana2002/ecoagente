@@ -15,7 +15,7 @@ public enum Estado {
     RF("Buscando Local p/ Fuga"),
     F("Fugindo");
 
-    private String descricao;
+    private final String descricao;
  
     Estado(String descricao) {
         this.descricao = descricao;

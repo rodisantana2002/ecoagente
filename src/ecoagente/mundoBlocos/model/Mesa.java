@@ -47,7 +47,7 @@ public class Mesa extends Agente implements itfSaidaTerminal{
         return tokenObjetivo;
     }   
         
-    public boolean isSatisfeito(){
+    public boolean validarToken(){
         if (this.tokenMesa.equals(this.tokenObjetivo)){
             return true;
         }
