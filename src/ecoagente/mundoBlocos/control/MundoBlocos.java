@@ -113,6 +113,8 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                     logs.append("       ... bloco consegue realizar seu objetivo " + "\n");            
                     logs.append("       ... o estado do bloco foi alterado para " + Estado.F + " - " + Estado.F.getDescricao() + "\n");                                
                     blocos.get(blocos.indexOf(bloco)).fugir(bloco.getObjetivo());
+                    logs.append("       ... bloco realizou seu objetivo " + "\n");            
+                    logs.append("       ... o estado do bloco foi alterado para " + Estado.S + " - " + Estado.S.getDescricao() + "\n");                                                    
                     blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.S);            
                 }
                 else{
