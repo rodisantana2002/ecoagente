@@ -126,7 +126,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                         logs.append("       ... bloco realiza um movimento de fuga para a primeira posicao válida encontrada! \n");                                              
                         blocos.get(blocos.indexOf(bloco)).atualizarEstado(Estado.RS);                               
                         logs.append("       ... o estado do bloco foi alterado para " + Estado.RS + " - " + Estado.RS.getDescricao() + "\n");  
-                        blocos.get(blocos.indexOf(bloco)).setAgressor(null);                                                            
+                        blocos.get(blocos.indexOf(bloco)).setAgressor(null);  //limpar referencias anteriores
                     }
                     else{
                         logs.append("       ... bloco tentou satisfazer seu objetivo, mas não teve sucesso! Pois o bloco ficaria flutuando (lei da gravidade)\n");                                              
@@ -139,6 +139,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                 logs.append("       ... bloco não consegue realizar seu objetivo. Pois existe um outro bloco impedindo seu movimento!\n"); 
                 Bloco blocoImpedimento = obterBlocoImpedimento(bloco.getPosicao(), pilhaBlocos);
                 logs.append("       ... bloco inicia ataque ao bloco que esta impedindo. |" + blocoImpedimento.getAlias() +"|\n");
+                bloco.atacar(blocoImpedimento);
                 blocos.get(blocos.indexOf(blocoImpedimento)).atualizarEstado(Estado.RF);            
                 logs.append("       ... o estado do bloco que esta o impedindo, foi alterado para " + Estado.RF + " - " + Estado.RF.getDescricao() + "\n");     
             }
@@ -152,14 +153,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         pilhaBlocos.popularMatrixBlocos();
     }
         
-    private boolean validarMovimento(Posicao posicao, PilhaBlocos pilhaBlocos){
-        //existe um outro bloco impedido o movimento (acima)
-        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() == ' '){            
-            return true;
-        }                                
-        return false;
-    }
-    
+   
     private boolean validarSatsfacaoBloco(Posicao posicao, PilhaBlocos pilhaBlocos){               
         //o objetivo esta disponivel        
         if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()][posicao.getColuna()].getAlias() == ' '){
@@ -177,6 +171,15 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
             }
         }                
         
+        return false;
+    }
+
+    //valida se o bloco consegue se mover
+    private boolean validarMovimento(Posicao posicao, PilhaBlocos pilhaBlocos){
+        //existe um outro bloco impedido o movimento (acima)
+        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() == ' '){            
+            return true;
+        }                                
         return false;
     }
     
@@ -203,6 +206,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     }
             
     //percorre a pilha de blocos em busca do primeiro local disponivel para realizar o movimento
+    //utilizado na fuga onde objetivo não pode ser atingido
     private Posicao obterPosicaoDisponivel(PilhaBlocos pilhaBlocos) {        
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){

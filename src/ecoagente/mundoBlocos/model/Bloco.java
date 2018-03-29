@@ -20,6 +20,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     private Posicao objetivo;
     private Posicao posicao;
     private Bloco agressor;
+    private Bloco agredido;
         
     public Bloco(int id, char alias){
         super();
@@ -51,6 +52,14 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         this.agressor = agressor;
     }
 
+    public Bloco getAgredido() {
+        return agredido;
+    }
+
+    public void setAgredido(Bloco agredido) {
+        this.agredido = agredido;
+    }
+
     public void setObjetivo(Posicao objetivo) {
         this.objetivo = objetivo;
     }
@@ -79,7 +88,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     @Override
     public void atacar(Agente agente) {
         Bloco bloco = (Bloco) agente;
-        bloco.setAgressor(bloco);
+        bloco.setAgredido(bloco);
     }
     
     @Override
