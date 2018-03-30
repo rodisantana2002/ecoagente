@@ -77,7 +77,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         clsPSR.prt(desenharBloco());        
     }  
 
-    private String desenharBloco() {
+    public String desenharBloco() {
         StringBuilder strBloco = new StringBuilder("");
         strBloco.append("  +---+\n");
         strBloco.append("  | " + getAlias() + " |\n");        
