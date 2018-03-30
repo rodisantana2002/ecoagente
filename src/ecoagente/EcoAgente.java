@@ -26,28 +26,28 @@ public class EcoAgente {
         //---------------------------------------------------------------------------------------------------        
         posInicial = new Posicao(0, 0);
         objetivo = new Posicao(4, 1);
-        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", 'A', Estado.RS, posInicial, objetivo);       
+        Bloco bloco1 = new Bloco(1, "Bloco de Teste1", "A", Estado.RS, posInicial, objetivo);       
         
         posInicial = new Posicao(1, 0);       
         objetivo = new Posicao(3, 1);       
-        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", 'B', Estado.RS, posInicial, objetivo);
+        Bloco bloco2 = new Bloco(2, "Bloco de Teste2", "B", Estado.RS, posInicial, objetivo);
         
         posInicial = new Posicao(1, 3);        
         objetivo = new Posicao(2, 1);        
-        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", 'C', Estado.RS, posInicial, objetivo);
+        Bloco bloco3 = new Bloco(3, "Bloco de Teste3", "C", Estado.RS, posInicial, objetivo);
         
         posInicial = new Posicao(0, 3);        
         objetivo = new Posicao(1, 1);        
-        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", 'D', Estado.RS, posInicial, objetivo);
+        Bloco bloco4 = new Bloco(4, "Bloco de Teste4", "D", Estado.RS, posInicial, objetivo);
         
         posInicial = new Posicao(0,1);        
         objetivo = new Posicao(0, 1);        
-        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", 'E', Estado.RS, posInicial, objetivo);
+        Bloco bloco5 = new Bloco(5, "Bloco de Teste5", "E", Estado.RS, posInicial, objetivo);
 
         
         posInicial = new Posicao(0,2);        
         objetivo = new Posicao(5, 1);        
-        Bloco bloco6 = new Bloco(6, "Bloco de Teste6", 'F', Estado.RS, posInicial, objetivo);                        
+        Bloco bloco6 = new Bloco(6, "Bloco de Teste6", "F", Estado.RS, posInicial, objetivo);                        
         
         //adiciona configuração de blocos na lista que será passado ao processamento do Mundo dos Blocos
         List<Bloco> lstBlocos = new ArrayList();

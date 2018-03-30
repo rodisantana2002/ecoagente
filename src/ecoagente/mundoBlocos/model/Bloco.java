@@ -22,7 +22,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
     private Bloco agressor;
     private Bloco agredido;
         
-    public Bloco(int id, char alias){
+    public Bloco(int id, String alias){
         super();
         setId(id);
         setDescricao("livre");
@@ -30,7 +30,7 @@ public class Bloco extends Agente implements itfAcaoAgente, itfSaidaTerminal{
         setPosicao(posicao);
     }
     
-    public Bloco(int id, String descricao, char alias, Estado estado, Posicao posicao, Posicao objetivo){
+    public Bloco(int id, String descricao, String alias, Estado estado, Posicao posicao, Posicao objetivo){
         super();
         setId(id);
         setDescricao(descricao);

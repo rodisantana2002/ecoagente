@@ -156,13 +156,13 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
    
     private boolean validarSatsfacaoBloco(Posicao posicao, PilhaBlocos pilhaBlocos){               
         //o objetivo esta disponivel        
-        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()][posicao.getColuna()].getAlias() == ' '){
+        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()][posicao.getColuna()].getAlias().equals(" ")){
             //o objetivo pode ser utilizado (leis da fisica)
             if (posicao.getLinha()==0){  //valida se passou do limite da mesa)                  
                 return true;
             }
             else{
-                if (pilhaBlocos.getMatrixBlocos()[posicao.getLinha()-1][posicao.getColuna()].getAlias() != ' '){
+                if (!pilhaBlocos.getMatrixBlocos()[posicao.getLinha()-1][posicao.getColuna()].getAlias().equals(" ")){
                     return true;
                 }
                 else{
@@ -177,7 +177,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     //valida se o bloco consegue se mover
     private boolean validarMovimento(Posicao posicao, PilhaBlocos pilhaBlocos){
         //existe um outro bloco impedido o movimento (acima)
-        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() == ' '){            
+        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias().equals(" ")){            
             return true;
         }                                
         return false;
@@ -185,9 +185,9 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     
     //identificar qual é o bloco que esta impedindo o movimento
     private Bloco obterBlocoImpedimento(Posicao posicao, PilhaBlocos pilhaBlocos){
-        Bloco bloco = new Bloco(new Random(999).nextInt(), ' ');
+        Bloco bloco = new Bloco(new Random(999).nextInt(), " ");
         
-        if(pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias() != ' '){
+        if(!pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()].getAlias().equals(" ")){
             bloco = pilhaBlocos.getMatrixBlocos()[posicao.getLinha()+1][posicao.getColuna()];
         }                
         
@@ -210,7 +210,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     private Posicao obterPosicaoDisponivel(PilhaBlocos pilhaBlocos) {        
         for (int linha=0; linha<linhas; linha++){
             for (int coluna=0; coluna<colunas; coluna++){
-                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias() == ' ') {
+                if (pilhaBlocos.getMatrixBlocos()[linha][coluna].getAlias().equals(" ")) {
                     if (linha==0){
                         if (isObjetivoOutroBloco(new Posicao(linha, coluna))){
                             continue;
@@ -218,7 +218,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
                         return new Posicao(linha, coluna);
                     }
                     else{
-                        if(pilhaBlocos.getMatrixBlocos()[linha-1][coluna].getAlias() != ' '){
+                        if(!pilhaBlocos.getMatrixBlocos()[linha-1][coluna].getAlias().equals(" ")){
                             if (isObjetivoOutroBloco(new Posicao(linha, coluna))){
                                 continue;
                             }                            

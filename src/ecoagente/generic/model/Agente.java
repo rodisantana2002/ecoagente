@@ -12,7 +12,7 @@ package ecoagente.generic.model;
 public abstract class Agente {
     private int id;
     private String descricao;
-    private char alias;
+    private String alias;
     private Estado estado;         
 
     public int getId() {
@@ -36,10 +36,10 @@ public abstract class Agente {
         this.estado = estado;
     }
 
-    public char getAlias() {
+    public String getAlias() {
         return alias;
     }
-    public void setAlias(char alias) {
+    public void setAlias(String alias) {
         this.alias = alias;
     }
 }
