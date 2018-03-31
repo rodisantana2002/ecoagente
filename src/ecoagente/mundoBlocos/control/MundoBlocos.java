@@ -7,7 +7,6 @@ package ecoagente.mundoBlocos.control;
 
 import ecoagente.generic.core.itfEngine;
 import ecoagente.generic.core.itfSaidaTerminal;
-import ecoagente.generic.helpers.formatacao.clsTrataDatas;
 import ecoagente.generic.helpers.mensagens.clsPSR;
 import ecoagente.generic.model.Ambiente;
 import ecoagente.generic.model.Estado;
@@ -25,7 +24,6 @@ import java.util.Random;
 public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine{
     private final List<Bloco> blocos;
     private StringBuilder logs;
-    private final clsTrataDatas trataDatas;
     
     private Mesa mesa;
     private final int linhas;
@@ -37,7 +35,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         this.blocos = blocos;   
         this.linhas = linhas;
         this.colunas = colunas;       
-        trataDatas = new clsTrataDatas();
+        logs = new StringBuilder("");                
         iniciar();
     }   
     
@@ -47,7 +45,6 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
     }
     
     private void iniciar(){      
-        logs = new StringBuilder("");        
         logs.append("** Iniciando Movimentos.\n");                        
         for (Bloco bloco : blocos){
             logs.append("   --> Bloco: " + bloco.getAlias() + "  -  criado e adicionado na mesa."+  "\n");

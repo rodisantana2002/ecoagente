@@ -44,7 +44,7 @@ public class viewPrincipal extends javax.swing.JFrame {
         limparDadosBloco();
         txtBlocos.setText("");
         txtVisualizador.setText(" Aguardando configurações...");
-        spinEspacos.setValue(1);
+        spinEspacos.setValue(0);
         gerarCabecalhoLista();
     }
         
@@ -469,7 +469,7 @@ public class viewPrincipal extends javax.swing.JFrame {
             spinEspacos.requestFocus();            
         }
         else{
-            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size(), Integer.valueOf(String.valueOf(spinEspacos.getValue())));
+            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size()+1, Integer.valueOf(String.valueOf(spinEspacos.getValue())));
             mundoBlocos.setEstado(Estado.RS);
             txtVisualizador.setText(mundoBlocos.getLogs());            
         }                
@@ -482,7 +482,7 @@ public class viewPrincipal extends javax.swing.JFrame {
             spinEspacos.requestFocus();            
         }
         else{
-            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size(), Integer.valueOf(String.valueOf(spinEspacos.getValue())));
+            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size()+1, Integer.valueOf(String.valueOf(spinEspacos.getValue())));
             mundoBlocos.setEstado(Estado.RS);
             mundoBlocos.processar();
             txtVisualizador.setText(mundoBlocos.getLogs());            
