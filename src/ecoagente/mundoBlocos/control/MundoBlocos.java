@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine{
     private final List<Bloco> blocos;
-    private final StringBuilder logs;
+    private StringBuilder logs;
     private final clsTrataDatas trataDatas;
     
     private Mesa mesa;
@@ -37,12 +37,17 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         this.blocos = blocos;   
         this.linhas = linhas;
         this.colunas = colunas;       
-        this.logs = new StringBuilder("");
         trataDatas = new clsTrataDatas();
         iniciar();
     }   
     
+    
+    public String getLogs(){
+        return logs.toString();                
+    }
+    
     private void iniciar(){      
+        logs = new StringBuilder("");        
         logs.append("** Iniciando Movimentos.\n");                        
         for (Bloco bloco : blocos){
             logs.append("   --> Bloco: " + bloco.getAlias() + "  -  criado e adicionado na mesa."+  "\n");

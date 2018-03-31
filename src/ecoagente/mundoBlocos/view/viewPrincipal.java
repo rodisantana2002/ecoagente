@@ -7,6 +7,7 @@ package ecoagente.mundoBlocos.view;
 
 import ecoagente.generic.model.Estado;
 import ecoagente.generic.model.Posicao;
+import ecoagente.mundoBlocos.control.MundoBlocos;
 import ecoagente.mundoBlocos.model.Bloco;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,15 +28,11 @@ public class viewPrincipal extends javax.swing.JFrame {
         initComponents();
         iniciarConfiguracoes();
     }
-
-    
-    private void popularListaBlocos(){
-    }
-        
+            
     private void gerarCabecalhoLista(){        
-        strBlocos.append(" ---------------------------------------------\n");
+        strBlocos.append(" ----------------------------------------------\n");
         strBlocos.append("  Alias     Descricao      Posicao   Objetivo \n");
-        strBlocos.append(" ---------------------------------------------\n");        
+        strBlocos.append(" ----------------------------------------------\n");        
         txtBlocos.setText(strBlocos.toString());                
     }
     
@@ -44,13 +41,13 @@ public class viewPrincipal extends javax.swing.JFrame {
         strLogs = new StringBuilder("");        
         lstBlocos = new ArrayList<Bloco>();
         
+        limparDadosBloco();
         txtBlocos.setText("");
         txtVisualizador.setText(" Aguardando configurações...");
         spinEspacos.setValue(1);
         gerarCabecalhoLista();
     }
-    
-    
+        
     private void adicionarBloco(){
         Bloco bloco;
         Posicao posicao = new Posicao(Integer.valueOf(spinLinhaPosi.getValue().toString()), Integer.valueOf(spinColunaPosi.getValue().toString()));
@@ -59,15 +56,18 @@ public class viewPrincipal extends javax.swing.JFrame {
         if(validarDados()){
             bloco = new Bloco(lstBlocos.size() + 1, 
                                 txtDescricao.getText().trim().toUpperCase(), 
-                                txtAlias.getText(),
+                                txtAlias.getText().toUpperCase(),
                                 Estado.RS, 
                                 posicao, 
                                 objetivo);        
             lstBlocos.add(bloco);
-            strBlocos.append("  " + bloco.getAlias() + "     " + bloco.getDescricao() + "\n"); 
+            strBlocos.append("    " + bloco.getAlias().toUpperCase() + "       " + 
+                                      bloco.getDescricao().toUpperCase()  + repeat(" ", 4 + (13 - bloco.getDescricao().trim().length()))    + 
+                                      String.valueOf(bloco.getPosicao().getLinha())  + "|" + String.valueOf(bloco.getPosicao().getColuna())  + "       " + 
+                                      String.valueOf(bloco.getObjetivo().getLinha()) + "|" + String.valueOf(bloco.getObjetivo().getColuna()) +  "\n"); 
             txtBlocos.setText(strBlocos.toString());
+            limparDadosBloco();
         }
-
     }
     
     private boolean validarDados(){
@@ -81,10 +81,48 @@ public class viewPrincipal extends javax.swing.JFrame {
             txtDescricao.requestFocus();
             return false;
         }
+        //-----------------------------------------------
+        for(Bloco bloco : lstBlocos){
+            if(bloco.getAlias().equals(txtAlias.getText().toUpperCase())){
+                JOptionPane.showMessageDialog(null, "Já existe um bloco com o Alias informado!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+                txtAlias.requestFocus();
+                return false;                
+            }
+            
+            if(bloco.getDescricao().trim().equals(txtDescricao.getText().toUpperCase().trim())){
+                JOptionPane.showMessageDialog(null, "Já existe um bloco com a Descrição informada!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+                txtDescricao.requestFocus();
+                return false;                                
+            }
+            
+            if(bloco.getPosicao().getValor().equals(String.valueOf(spinLinhaPosi.getValue() + String.valueOf(spinColunaPosi.getValue())))){
+                JOptionPane.showMessageDialog(null, "Já existe um bloco na Posição informada!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+                spinLinhaPosi.requestFocus();
+                return false;                                                
+            }
+            
+            if(bloco.getObjetivo().getValor().equals(String.valueOf(spinLinhaObj.getValue() + String.valueOf(spinColunaObj.getValue())))){
+                JOptionPane.showMessageDialog(null, "Já existe um bloco com o Objetivo informado!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+                spinLinhaObj.requestFocus();
+                return false;                                                                
+            }                        
+        }
         
         return true;
     }    
     
+    public static String repeat(String str, int times) {
+        return new String(new char[times]).replace("\0", str);
+    }    
+        
+    private void limparDadosBloco(){
+        txtAlias.setText("");
+        txtDescricao.setText("");
+        spinLinhaPosi.setValue(0);
+        spinColunaPosi.setValue(0);
+        spinLinhaObj.setValue(0);
+        spinColunaObj.setValue(0);                
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,7 +136,6 @@ public class viewPrincipal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtBlocos = new javax.swing.JEditorPane();
         panePrincipal = new javax.swing.JPanel();
-        txtDescricao = new javax.swing.JTextField();
         lblDescricao = new javax.swing.JLabel();
         lblAlias = new javax.swing.JLabel();
         panePosicao1 = new javax.swing.JPanel();
@@ -114,6 +151,7 @@ public class viewPrincipal extends javax.swing.JFrame {
         txtAlias = new javax.swing.JFormattedTextField();
         cmdAdicionar = new java.awt.Button();
         cmdLimpar = new java.awt.Button();
+        txtDescricao = new javax.swing.JFormattedTextField();
         paneVisualizador = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         txtVisualizador = new javax.swing.JEditorPane();
@@ -121,7 +159,6 @@ public class viewPrincipal extends javax.swing.JFrame {
         lblEspacos = new java.awt.Label();
         spinEspacos = new javax.swing.JSpinner();
         cmdInicial = new javax.swing.JButton();
-        cmdObjetivo = new javax.swing.JButton();
         cmdProcessar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -143,11 +180,6 @@ public class viewPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(txtBlocos);
 
         panePrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Bloco"));
-
-        txtDescricao.setColumns(20);
-        txtDescricao.setToolTipText("");
-        txtDescricao.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        txtDescricao.setMargin(new java.awt.Insets(0, 10, 0, 0));
 
         lblDescricao.setText("Descrição:");
 
@@ -246,6 +278,7 @@ public class viewPrincipal extends javax.swing.JFrame {
             }
         });
 
+        cmdLimpar.setFocusable(false);
         cmdLimpar.setLabel("limpar");
         cmdLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -253,13 +286,27 @@ public class viewPrincipal extends javax.swing.JFrame {
             }
         });
 
+        txtDescricao.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtDescricao.setColumns(13);
+        try {
+            txtDescricao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("*************")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        txtDescricao.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
         javax.swing.GroupLayout panePrincipalLayout = new javax.swing.GroupLayout(panePrincipal);
         panePrincipal.setLayout(panePrincipalLayout);
         panePrincipalLayout.setHorizontalGroup(
             panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(paneObjetivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panePosicao1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panePrincipalLayout.createSequentialGroup()
                 .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panePrincipalLayout.createSequentialGroup()
+                        .addComponent(cmdLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmdAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panePrincipalLayout.createSequentialGroup()
                         .addGap(2, 2, 2)
                         .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,30 +314,22 @@ public class viewPrincipal extends javax.swing.JFrame {
                             .addComponent(lblAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panePrincipalLayout.createSequentialGroup()
-                                .addComponent(lblDescricao)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 276, Short.MAX_VALUE)))
-                    .addGroup(panePrincipalLayout.createSequentialGroup()
-                        .addComponent(cmdLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmdAdicionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lblDescricao)
+                            .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(2, 2, 2))
-            .addComponent(panePosicao1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         panePrincipalLayout.setVerticalGroup(
             panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panePrincipalLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panePrincipalLayout.createSequentialGroup()
-                        .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblDescricao)
-                            .addComponent(lblAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 41, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDescricao)
+                    .addComponent(lblAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panePrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAlias, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addComponent(panePosicao1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(paneObjetivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,7 +344,7 @@ public class viewPrincipal extends javax.swing.JFrame {
         paneBancada.setLayout(paneBancadaLayout);
         paneBancadaLayout.setHorizontalGroup(
             paneBancadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
             .addComponent(panePrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         paneBancadaLayout.setVerticalGroup(
@@ -313,7 +352,7 @@ public class viewPrincipal extends javax.swing.JFrame {
             .addGroup(paneBancadaLayout.createSequentialGroup()
                 .addComponent(panePrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 532, Short.MAX_VALUE))
         );
 
         paneVisualizador.setBorder(javax.swing.BorderFactory.createTitledBorder("Bancada"));
@@ -327,15 +366,23 @@ public class viewPrincipal extends javax.swing.JFrame {
 
         lblEspacos.setText("Número de Espaços:");
 
-        spinEspacos.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        spinEspacos.setModel(new javax.swing.SpinnerNumberModel(0, 0, 10, 1));
 
         cmdInicial.setToolTipText("");
         cmdInicial.setLabel("Estado Inicial");
-
-        cmdObjetivo.setLabel("Estado Final");
+        cmdInicial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdInicialActionPerformed(evt);
+            }
+        });
 
         cmdProcessar.setText("Processar");
         cmdProcessar.setToolTipText("");
+        cmdProcessar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmdProcessarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout paneTitleBancadaLayout = new javax.swing.GroupLayout(paneTitleBancada);
         paneTitleBancada.setLayout(paneTitleBancadaLayout);
@@ -346,16 +393,14 @@ public class viewPrincipal extends javax.swing.JFrame {
                 .addComponent(lblEspacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(spinEspacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(cmdInicial)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cmdObjetivo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(cmdProcessar)
                 .addContainerGap())
         );
 
-        paneTitleBancadaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdInicial, cmdObjetivo, cmdProcessar});
+        paneTitleBancadaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cmdInicial, cmdProcessar});
 
         paneTitleBancadaLayout.setVerticalGroup(
             paneTitleBancadaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +408,6 @@ public class viewPrincipal extends javax.swing.JFrame {
                 .addComponent(lblEspacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(spinEspacos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addComponent(cmdInicial)
-                .addComponent(cmdObjetivo)
                 .addComponent(cmdProcessar))
         );
 
@@ -409,13 +453,41 @@ public class viewPrincipal extends javax.swing.JFrame {
     private void cmdAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdAdicionarActionPerformed
         // TODO add your handling code here:
         adicionarBloco();
+        txtAlias.requestFocus();
     }//GEN-LAST:event_cmdAdicionarActionPerformed
 
     private void cmdLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLimparActionPerformed
         // TODO add your handling code here:
         iniciarConfiguracoes();
-        cmdAdicionar.requestFocus();
+        txtAlias.requestFocus();
     }//GEN-LAST:event_cmdLimparActionPerformed
+
+    private void cmdInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdInicialActionPerformed
+        // TODO add your handling code here:
+        if(String.valueOf(spinEspacos.getValue()).equals("0")){
+            JOptionPane.showMessageDialog(null, "Favor configurar o número de espaços para a bancada!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+            spinEspacos.requestFocus();            
+        }
+        else{
+            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size(), Integer.valueOf(String.valueOf(spinEspacos.getValue())));
+            mundoBlocos.setEstado(Estado.RS);
+            txtVisualizador.setText(mundoBlocos.getLogs());            
+        }                
+    }//GEN-LAST:event_cmdInicialActionPerformed
+
+    private void cmdProcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdProcessarActionPerformed
+        // TODO add your handling code here:
+        if(String.valueOf(spinEspacos.getValue()).equals("0")){
+            JOptionPane.showMessageDialog(null, "Favor configurar o número de espaços para a bancada!", "Atenção", JOptionPane.WARNING_MESSAGE);            
+            spinEspacos.requestFocus();            
+        }
+        else{
+            MundoBlocos mundoBlocos = new MundoBlocos(lstBlocos, lstBlocos.size(), Integer.valueOf(String.valueOf(spinEspacos.getValue())));
+            mundoBlocos.setEstado(Estado.RS);
+            mundoBlocos.processar();
+            txtVisualizador.setText(mundoBlocos.getLogs());            
+        }        
+    }//GEN-LAST:event_cmdProcessarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -456,7 +528,6 @@ public class viewPrincipal extends javax.swing.JFrame {
     private java.awt.Button cmdAdicionar;
     private javax.swing.JButton cmdInicial;
     private java.awt.Button cmdLimpar;
-    private javax.swing.JButton cmdObjetivo;
     private javax.swing.JButton cmdProcessar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -480,7 +551,7 @@ public class viewPrincipal extends javax.swing.JFrame {
     private javax.swing.JSpinner spinLinhaPosi;
     private javax.swing.JFormattedTextField txtAlias;
     private javax.swing.JEditorPane txtBlocos;
-    private javax.swing.JTextField txtDescricao;
+    private javax.swing.JFormattedTextField txtDescricao;
     private javax.swing.JEditorPane txtVisualizador;
     // End of variables declaration//GEN-END:variables
 
