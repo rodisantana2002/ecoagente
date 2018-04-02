@@ -38,12 +38,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         logs = new StringBuilder("");                
         iniciar();
     }   
-    
-    
-    public String getLogs(){
-        return logs.toString();                
-    }
-    
+            
     private void iniciar(){      
         logs.append("** Iniciando Movimentos.\n");                        
         for (Bloco bloco : blocos){
@@ -58,6 +53,7 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         logs.append("------------------------------------------------------------------\n\n");
     }
 
+            
     @Override
     public void processar() {                              
         //percore loop em busca da solução do probelma
@@ -96,7 +92,11 @@ public class MundoBlocos extends Ambiente implements itfSaidaTerminal, itfEngine
         //imprime tudo no terminal
         desenharTerminal();                                                    
     }
-       
+    
+    public String getLogs(){
+        return logs.toString();                
+    }
+           
     private void processarAcaoBloco(Bloco bloco, PilhaBlocos pilhaBlocos){
         //identificar se o Bloco esta Satisfeito em sua posicaão inicial
         if(!bloco.getPosicao().getValor().equals(bloco.getObjetivo().getValor())){                    
